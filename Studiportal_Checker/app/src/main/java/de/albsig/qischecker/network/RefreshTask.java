@@ -3,6 +3,8 @@ package de.albsig.qischecker.network;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -37,13 +39,14 @@ public class RefreshTask extends AsyncTask<Void, Void, Exception> {
 	private final String URL_LOGIN = "https://qis.hs-albsig.de/qisserver/rds?state=user&type=1&category=auth.login&startpage=portal.vm";
 	private final String URL_LOGOUT = "https://qis.hs-albsig.de/qisserver/rds?state=user&type=4&re=last&category=auth.logout&breadCrumbSource=portal&topitem=functions";
 	private final String URL_FETCH_ASI = "https://qis.hs-albsig.de/qisserver/rds?state=change&type=1&moduleParameter=studyPOSMenu&nextdir=change&next=menu.vm&subdir=applications&xml=menu&purge=y&navigationPosition=functions%2CstudyPOSMenu&breadcrumb=studyPOSMenu&topitem=functions&subitem=studyPOSMenu";
-	//private final String URL_OBSERVE = "https://studi-portal.hs-furtwangen.de/qisserver/rds?state=htmlbesch&moduleParameter=Student&menuid=notenspiegel&breadcrumb=notenspiegel&breadCrumbSource=menu&asi=%s";
+	private final String URL_FETCH_NODE ="https://qis.hs-albsig.de/qisserver/rds?state=notenspiegelStudent&next=tree.vm&nextdir=qispos/notenspiegel/student&menuid=notenspiegelStudent&breadcrumb=notenspiegel&breadCrumbSource=menu&asi=%s";
 	private final String URL_OBSERVE = "https://qis.hs-albsig.de/qisserver/rds?state=notenspiegelStudent&next=list.vm&nextdir=qispos/notenspiegel/student&createInfos=Y&struct=auswahlBaum&nodeID=%s&expand=0&asi=%s";
-	private final String MENU_ITEM = "auswahlBaum%7Cabschluss%3Aabschl%3D90%2Cstgnr%3D1"; // Temporary
 
 	private final String USER_NAME;
 	private final String PASSWORD;
 	private final Context CONTEXT;
+
+	private final Pattern pattern = Pattern.compile("<a name=\"(.*)\"></a>");
 
 	public RefreshTask(Context c, String userName, String password) {
 		this.CONTEXT = c;
@@ -89,10 +92,13 @@ public class RefreshTask extends AsyncTask<Void, Void, Exception> {
 				// Fetch asi
 				String asi = this.getAsi(client);
 
+				// Get nodeIDs of current and past degree
+				List<String> nodeID = this.getNode(client, asi);
+
 				//Check for change
 				this.showProgressDialog(this.getStringResource(R.string.text_checking_update));
 				Log.i(this.getClass().getSimpleName(),this.getStringResource(R.string.text_checking_update));
-				boolean changed = this.checkDataChange(client, asi);
+				boolean changed = this.checkDataChange(client, asi, nodeID);
 
 				//If no change -> save a NoChnageException in occuredException
 				if(!changed) {
@@ -196,11 +202,32 @@ public class RefreshTask extends AsyncTask<Void, Void, Exception> {
 
 	}
 
-	private boolean checkDataChange(HttpClient client, String asi) throws Exception {
-		String response = this.sendGet(client, String.format(this.URL_OBSERVE, MENU_ITEM,asi));
-		int start = response.indexOf("<table border=\"0\">");
-		int end = response.indexOf("</table>", start);
-		String table = response.substring(start, end);
+	private List<String> getNode(HttpClient client, String asi) throws Exception {
+		//Find Node IDs
+		String response = this.sendGet(client, String.format(this.URL_FETCH_NODE, asi));
+		int start = response.indexOf("<ul class=\"treelist\">");
+		int end = response.indexOf("</ul>", start);
+		String list = response.substring(start, end);
+
+		List<String> nodes = new ArrayList<>();
+		Matcher matcher = pattern.matcher(list);
+		while (matcher.find()) {
+			nodes.add(matcher.group(1));
+		}
+
+		return nodes;
+
+	}
+
+
+	private boolean checkDataChange(HttpClient client, String asi, List<String> nodes) throws Exception {
+		String table = "";
+		for (String node: nodes) {
+			String response = this.sendGet(client, String.format(this.URL_OBSERVE, node, asi));
+			int start = response.indexOf("<table border=\"0\">");
+			int end = response.indexOf("</table>", start);
+			table += response.substring(start, end);
+		}
 
 		//Create StudiportalData, Compare to saved one and savethe new one
 		StudiportalData sd = new StudiportalData(table);
