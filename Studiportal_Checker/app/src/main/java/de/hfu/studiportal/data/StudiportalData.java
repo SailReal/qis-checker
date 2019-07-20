@@ -188,23 +188,19 @@ public class StudiportalData implements Serializable {
 			}
 			
 			//Get text and remove leading and trailing whitespaces and espacially the #160
-			String text = this.trimString(col.text());
+			String text = this.trimString(col.text()).replaceAll("&nbsp", "");
 			
 			//Swicth case for every col
 			switch(i+offset) {
-			case 1: e.setName(text); break;
-			case 2: e.setBonus(text); break;
-			case 3: e.setMalus(text); break;
-			case 4: e.setECTS(text); break;
-			case 5: e.setSWS(text); break;
-			case 6: e.setSemester(text); break;
-			case 7: e.setKind(text); break;
-			case 8: e.setTryCount(text); break;
-			case 9: e.setGrade(text); break;
-			case 10: e.setState(text); break;
-			case 11: e.setComment(text); break;
-			case 12: e.setResignation(text); break;
-			case 13: e.setNote(text); break;
+				case 1: e.setName(text); break;
+				case 2: e.setSemester(text); break;
+				case 3: e.setGrade(text); break;
+				case 4: e.setState(text); break;
+				case 5: e.setECTS(text); break;
+				case 6: e.setKind(text); break;
+				case 7: e.setPv(text); break;
+				case 8: e.setTryCount(text); break;
+				case 9: e.setDate(text); break;
 			}
 		}
 		

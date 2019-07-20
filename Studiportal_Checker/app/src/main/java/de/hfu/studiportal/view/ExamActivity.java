@@ -32,22 +32,22 @@ public class ExamActivity extends DialogHostActivity {
 		//If there is a grade
 		if(e.getGrade() != null && e.getGrade().length() > 0) {
 			this.setText(e.getGrade(), R.id.textGrade);
-			this.setText(e.getStateName(this), R.id.textState);
+			this.setText(e.getState(), R.id.textState);
 			
 		//If there is no grade
 		} else {
-			this.setText(e.getStateName(this), R.id.textGrade);
+			this.setText(e.getState(), R.id.textGrade);
 			this.setText("", R.id.textState);
 			
 		}
 		
 		//Set icon
 		int d = 0;
-		switch (e.getStateEnum()) {
-		case AN: d = R.drawable.ic_an; break;
-		case BE: d = R.drawable.ic_be; break;
-		case NB: d = R.drawable.ic_nb; break;
-		case EN: d = R.drawable.ic_en; break;
+		switch (e.getState()) {
+		case "Prüfung vorhanden": d = R.drawable.ic_an; break;
+		case "bestanden": d = R.drawable.ic_be; break;
+		case "nicht bestanden": d = R.drawable.ic_nb; break;
+		case "endgültig nicht bestanden": d = R.drawable.ic_en; break;
 		default:
 			
 		}

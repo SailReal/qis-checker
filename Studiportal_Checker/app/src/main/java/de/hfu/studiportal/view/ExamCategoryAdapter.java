@@ -23,16 +23,11 @@ import de.hfu.studiportal.data.Seperator;
 
 public class ExamCategoryAdapter extends RecyclerView.Adapter<ExamCategoryAdapter.ViewHolder> {
 
-	private final String BONUS;
-	private final String MALUS;
 	private final String ECTS;
 	private final String NO_ECTS;
-	private final String STATE_RESIGNATED;
 	private final String STATE;
 	private final String SEMESTER;
 	private final String ATTEMPT;
-	private final String PRACTICAL_WORK;
-	private final String NOTE;
 	private final String GRADE;
     private final Drawable IC_AN;
     private final Drawable IC_EN;
@@ -50,16 +45,11 @@ public class ExamCategoryAdapter extends RecyclerView.Adapter<ExamCategoryAdapte
 
         this.animationStep = this.objects.size();
 
-		this.BONUS = context.getString(R.string.text_bonus);
-		this.MALUS = context.getString(R.string.text_malus);
 		this.ECTS = context.getString(R.string.text_ects);
 		this.NO_ECTS = context.getString(R.string.text_no_ects);
-		this.STATE_RESIGNATED = context.getString(R.string.text_state_resignated);
 		this.STATE = context.getString(R.string.text_state);
 		this.SEMESTER = context.getString(R.string.text_semester);
 		this.ATTEMPT = context.getString(R.string.text_attempt);
-		this.PRACTICAL_WORK = context.getString(R.string.text_practical_work);
-		this.NOTE = context.getString(R.string.text_note);
 		this.GRADE = context.getString(R.string.text_grade);
         this.IC_AN = context.getResources().getDrawable(R.drawable.ic_an);
         this.IC_BE = context.getResources().getDrawable(R.drawable.ic_be);
@@ -118,80 +108,43 @@ public class ExamCategoryAdapter extends RecyclerView.Adapter<ExamCategoryAdapte
 
 		//Fill Views with data
 		switch(kind) {
-		case KO: 
-			if(e.getBonus().equals("-")) {
-				//If there are no bnous ects -> hide the useless view, else -> show them
-                holder.textViews.get(1).setVisibility(View.GONE);
-
-			} else {
-                holder.textViews.get(1).setText(String.format("%s: %s %s", this.BONUS, e.getBonus(), this.ECTS));
-
-			}
-
-			if(e.getMalus().equals("-")) {
-				//If there are no malus ects -> hide the useless view, else -> show them
-                holder.textViews.get(2).setVisibility(View.GONE);
-
-			} else {
-                holder.textViews.get(2).setText(String.format("%s: %s %s", this.MALUS, e.getMalus(), this.ECTS));
-
-			}
-
-			if(e.getMalus().equals("-") && e.getBonus().equals("-")) {
-				//If both are not set, the View will be empty (both textview are hidden)! Show the first and say no ects
-                holder.textViews.get(1).setVisibility(View.VISIBLE);
-                holder.textViews.get(1).setText(this.NO_ECTS);
-                holder.textViews.get(2).setVisibility(View.GONE);
-
-			}
-
-			break;
-
-		case PL: 
-		case P: 
+		case F:
+        case K:
+        case L:
+        case S:
+        case Z:
+        case MO:
+        case MP:
+        case MT:
 		case G: 
-			if(e.isResignated()) {
-				//If e is resignated, shw special info on the topic
-                holder.textViews.get(1).setText(String.format("%s: %s", this.STATE, this.STATE_RESIGNATED));
-                holder.textViews.get(2).setText(String.format("%s: %s", this.NOTE, e.getNoteName(ctx)));
+			//First field
+            if (e.getState() == "Prüfung vorhanden") {
+                //If e is only AN, there is no grade to show. Display state: an
+                holder.textViews.get(1).setText(String.format("%s: %s (%s %s)", this.STATE, e.getState(), e.getECTS(), this.ECTS));
 
-			} else {
-				//First field
-				if(e.getStateEnum() == Exam.State.AN) {
-					//If e is only AN, there is no grade to show. Display state: an
-                    holder.textViews.get(1).setText(String.format("%s: %s (%s %s)", this.STATE, e.getStateName(ctx), e.getECTS(), this.ECTS));
+            } else {
+                //e is not an -> be, nb or en. Show grade and ects
+                holder.textViews.get(1).setText(String.format("%s: %s (%s %s)", this.GRADE, e.getGrade(), e.getECTS(), this.ECTS));
 
-				} else {
-					//e is not an -> be, nb or en. Show grade and ects
-                    holder.textViews.get(1).setText(String.format("%s: %s (%s %s)", this.GRADE, e.getGrade(), e.getECTS(), this.ECTS));
+            }
 
-				}
+            //Second Field
+            if (e.getKindEnum() == Exam.Kind.G) {
+                //If e is generatde, show only the semester
+                holder.textViews.get(2).setText(String.format("%s: %s", this.SEMESTER, e.getSemester()));
 
-				//Second Field
-				if(e.getKindEnum() == Exam.Kind.G) {
-					//If e is generatde, show only the semester
-                    holder.textViews.get(2).setText(String.format("%s: %s", this.SEMESTER, e.getSemester()));
+            } else {
+                //Else show attempt and semester
+                holder.textViews.get(2).setText(String.format("%s: %s (%s)", this.ATTEMPT, e.getTryCount(), e.getSemester()));
 
-				} else {
-					//Else show attempt and semester
-                    holder.textViews.get(2).setText(String.format("%s: %s (%s)", this.ATTEMPT, e.getTryCount(), e.getSemester()));
-
-				}
-			}
-
-			break;
-
-		case VL: 
-			//Show state and sign that e is a vl
-            holder.textViews.get(1).setText(String.format("%s: %s (%s %s)", this.STATE, e.getStateName(ctx), e.getECTS(), this.ECTS));
-            holder.textViews.get(2).setText(this.PRACTICAL_WORK);
+            }
 
 			break;
 
 		case UNDEFINED:
 		default:
 			//This should not happen. show state an Kind
-            holder.textViews.get(1).setText(String.format("%s: %s", this.STATE, e.getStateName(ctx)));
+            holder.textViews.get(1).setText(String.format("%s: %s", this.STATE, e.getState()));
             holder.textViews.get(2).setText(e.getKind());
 
 			break;
@@ -199,18 +152,11 @@ public class ExamCategoryAdapter extends RecyclerView.Adapter<ExamCategoryAdapte
 		}
 
 		//Set icon
-		switch (e.getStateEnum()) {
-		case AN: holder.imageView.setImageDrawable(this.IC_AN); break;
-		case BE: holder.imageView.setImageDrawable(this.IC_BE); break;
-		case NB: holder.imageView.setImageDrawable(this.IC_NB); break;
-		case EN: holder.imageView.setImageDrawable(this.IC_EN); break;
-		case UNDEFINED: holder.imageView.setVisibility(View.GONE); break;
-		}
-
-		//If eis resignated, override icon with flag
-		if(e.isResignated()) {
-            holder.imageView.setImageDrawable(this.IC_RE);
-
+		switch (e.getState()) {
+            case "Prüfung vorhanden": holder.imageView.setImageDrawable(this.IC_AN); break;
+            case "bestanden": holder.imageView.setImageDrawable(this.IC_BE); break;
+            case "nicht bestanden": holder.imageView.setImageDrawable(this.IC_NB); break;
+            case "endgültig nicht bestanden": holder.imageView.setImageDrawable(this.IC_EN); break;
 		}
 	}
 

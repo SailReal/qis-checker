@@ -8,47 +8,25 @@ import de.hfu.funfpunktnull.R;
 public class Exam implements Serializable {
 
 	public enum Kind {
-		PL, VL, P, G, KO, UNDEFINED
-	}
-
-	public enum State {
-		AN, BE, NB, EN, UNDEFINED
-	}
-
-	public enum Note {
-		GR, K, SA, U, VF, UNDEFINED
+		F, G, K, L, MO, MP, MT, S, Z, UNDEFINED
 	}
 
 	private static final long serialVersionUID = -4473350889205404637L;
 	private int id;
 	private String examNo;
 	private String name = "-";
-	private String bonus = "-";
-	private String malus = "-";
-	private String ects = "-";
-	private String sws = "-";
 	private String semester = "-";
-	private String kind = "-";
-	private String tryCount = "-";
 	private String grade = "-";
 	private String state = "-";
-	private String comment = "-";
-	private String resignation = "-";
-	private String note = "-";
+	private String ects = "-";
+	private String kind = "-";
+	private String pv = "-";
+	private String tryCount = "-";
+	private String date = "-";
 
 	public Exam(String examNo) {
 		this.setExamNo(examNo);
 
-	}
-
-	public boolean isResignated() {
-		try {
-			return this.getResignation().equals("1");
-			
-		} catch(Exception e) {
-			return false;
-
-		}
 	}
 
 	public Kind getKindEnum() {
@@ -60,55 +38,10 @@ public class Exam implements Serializable {
 
 		}
 	}
-
-	public State getStateEnum() {
-		try {
-			return State.valueOf(this.getState());
-
-		} catch(Exception e) {
-			return State.UNDEFINED;
-
-		}
-	}
-
-	public String getStateName(Context c) {
-		switch(this.getStateEnum()) {
-		case BE: return this.getStringResource(c, R.string.text_be);
-		case AN: return this.getStringResource(c, R.string.text_an);
-		case NB: return this.getStringResource(c, R.string.text_nb);
-		case EN: return this.getStringResource(c, R.string.text_en);
-		case UNDEFINED: return "Undefined";
-		}
-
-		return null;
-	}
 	
 	private String getStringResource(Context c, int id) {
 		return c.getResources().getString(id);
 		
-	}
-
-	public Note getNoteEnum() {
-		try {
-			return Note.valueOf(this.getNote());
-
-		} catch(Exception e) {
-			return Note.UNDEFINED;
-
-		}
-	}
-
-	public String getNoteName(Context c) {
-		switch(this.getNoteEnum()) {
-		case GR: return this.getStringResource(c, R.string.text_gr);
-		case U: return this.getStringResource(c, R.string.text_u);
-		case VF: return this.getStringResource(c, R.string.text_vf);
-		case K: return this.getStringResource(c, R.string.text_k);
-		case SA: return this.getStringResource(c, R.string.text_sa);
-		case UNDEFINED: return "Undefined";
-		}
-
-		return null;
 	}
 	
 	public int getId() {
@@ -126,23 +59,8 @@ public class Exam implements Serializable {
 
 	}
 
-	public String getBonus() {
-		return bonus;
-
-	}
-
 	public String getECTS() {
 		return ects;
-
-	}
-
-	public String getSWS() {
-		return sws;
-
-	}
-
-	public String getMalus() {
-		return malus;
 
 	}
 
@@ -156,9 +74,17 @@ public class Exam implements Serializable {
 
 	}
 
+	public String getPv() {
+		return pv;
+	}
+
 	public String getTryCount() {
 		return tryCount;
 
+	}
+
+	public String getDate() {
+		return date;
 	}
 
 	public String getGrade() {
@@ -168,21 +94,6 @@ public class Exam implements Serializable {
 
 	public String getState() {
 		return state;
-
-	}
-
-	public String getComment() {
-		return comment;
-
-	}
-
-	public String getResignation() {
-		return resignation;
-
-	}
-
-	public String getNote() {
-		return note;
 
 	}
 
@@ -199,26 +110,8 @@ public class Exam implements Serializable {
 
 	}
 
-	public Exam setBonus(String bonus) {
-		this.bonus = bonus;
-		return this;
-
-	}
-
-	public Exam setMalus(String malus) {
-		this.malus = malus;
-		return this;
-
-	}
-
 	public Exam setECTS(String ects) {
 		this.ects = ects;
-		return this;
-
-	}
-
-	public Exam setSWS(String sws) {
-		this.sws = sws;
 		return this;
 
 	}
@@ -236,10 +129,20 @@ public class Exam implements Serializable {
 
 	}
 
+	public Exam setPv(String pv) {
+		this.pv = pv;
+		return this;
+	}
+
 	public Exam setTryCount(String tryCount) {
 		this.tryCount = tryCount;
 		return this;
 
+	}
+
+	public Exam setDate(String date) {
+		this.date = date;
+		return this;
 	}
 
 	public Exam setGrade(String grade) {
@@ -250,23 +153,6 @@ public class Exam implements Serializable {
 
 	public Exam setState(String state) {
 		this.state = state;
-		return this;
-
-	}
-	public Exam setComment(String comment) {
-		this.comment = comment;
-		return this;
-
-	}
-
-	public Exam setResignation(String resignation) {
-		this.resignation = resignation;
-		return this;
-
-	}
-
-	public Exam setNote(String note) {
-		this.note = note;
 		return this;
 
 	}

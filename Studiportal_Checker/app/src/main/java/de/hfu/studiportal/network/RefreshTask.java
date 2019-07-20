@@ -198,7 +198,7 @@ public class RefreshTask extends AsyncTask<Void, Void, Exception> {
 
 	private boolean checkDataChange(HttpClient client, String asi) throws Exception {
 		String response = this.sendGet(client, String.format(this.URL_OBSERVE, MENU_ITEM,asi));
-		int start = response.indexOf("<table cellspacing=\"0\" cellpadding=\"5\" border=\"0\" align=\"center\" width=\"100%\">");
+		int start = response.indexOf("<table border=\"0\">");
 		int end = response.indexOf("</table>", start);
 		String table = response.substring(start, end);
 
@@ -306,10 +306,10 @@ public class RefreshTask extends AsyncTask<Void, Void, Exception> {
 			
 			if(showGrade) {
  				if(e.getGrade() != null && e.getGrade().length() > 0) {
- 					subtitle = String.format("%s - %s", e.getGrade(), e.getStateName(this.getContext()));
+ 					subtitle = String.format("%s - %s", e.getGrade(), e.getState());
 
  				} else {
- 					subtitle = e.getStateName(this.getContext());
+ 					subtitle = e.getState();
  					
  				}
 			} else {
