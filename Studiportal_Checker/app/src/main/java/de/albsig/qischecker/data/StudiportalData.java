@@ -218,10 +218,10 @@ public class StudiportalData implements Serializable {
 			throw new RuntimeException();
 			
 		}
-		
+
 		//Create ExamCategory
-		return new ExamCategory(name);
-		
+		return new ExamCategory(name.replaceAll("Abschluss: \\[\\S+\\]\\s", "").replaceAll("Studiengang: \\[\\S+\\]\\s", ""));
+
 	}
 	
 	public Exam findExam(int id) {
