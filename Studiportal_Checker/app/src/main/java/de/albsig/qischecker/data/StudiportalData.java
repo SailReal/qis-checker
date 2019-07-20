@@ -220,7 +220,7 @@ public class StudiportalData implements Serializable {
 		}
 
 		//Create ExamCategory
-		return new ExamCategory(name.replaceAll("Abschluss: \\[\\S+\\]\\s", "").replaceAll("Studiengang: \\[\\S+\\]\\s", ""));
+		return new ExamCategory(name);
 
 	}
 	
