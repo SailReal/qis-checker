@@ -1,4 +1,4 @@
-package de.hfu.studiportal.view;
+package de.albsig.qischecker.view;
 
 public interface Refreshable {
 	

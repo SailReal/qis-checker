@@ -1,4 +1,4 @@
-package de.hfu.studiportal.network;
+package de.albsig.qischecker.network;
 
 public class LoginException extends Exception {
 

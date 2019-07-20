@@ -1,4 +1,4 @@
-package de.hfu.studiportal.view;
+package de.albsig.qischecker.view;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
@@ -9,7 +9,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.ActionBarActivity;
 
-import de.hfu.funfpunktnull.R;
+import de.albsig.funfpunktnull.R;
 
 @SuppressLint("Registered")
 public abstract class DialogHostActivity extends ActionBarActivity implements DialogHost {

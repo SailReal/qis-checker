@@ -1,4 +1,4 @@
-package de.hfu.studiportal.data;
+package de.albsig.qischecker.data;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;

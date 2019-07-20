@@ -1,4 +1,4 @@
-package de.hfu.studiportal.view;
+package de.albsig.qischecker.view;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -8,8 +8,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import de.hfu.funfpunktnull.R;
-import de.hfu.studiportal.data.ExamCategory;
+import de.albsig.funfpunktnull.R;
+import de.albsig.qischecker.data.ExamCategory;
 import jp.wasabeef.recyclerview.animators.SlideInUpAnimator;
 
 //Instances of this class are fragments representing a single

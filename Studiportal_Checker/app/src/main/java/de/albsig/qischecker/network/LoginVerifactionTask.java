@@ -1,6 +1,6 @@
-package de.hfu.studiportal.network;
+package de.albsig.qischecker.network;
 
-import de.hfu.studiportal.view.LoginActivity;
+import de.albsig.qischecker.view.LoginActivity;
 
 
 public class LoginVerifactionTask extends RefreshTask {

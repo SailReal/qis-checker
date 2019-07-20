@@ -1,4 +1,4 @@
-package de.hfu.studiportal.view;
+package de.albsig.qischecker.view;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -6,9 +6,9 @@ import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.preference.PreferenceManager;
 import android.widget.ArrayAdapter;
 
-import de.hfu.funfpunktnull.R;
-import de.hfu.studiportal.data.ExamCategory;
-import de.hfu.studiportal.data.StudiportalData;
+import de.albsig.funfpunktnull.R;
+import de.albsig.qischecker.data.ExamCategory;
+import de.albsig.qischecker.data.StudiportalData;
 
 public class ExamCategoryArrayAdapter extends ArrayAdapter<String> implements OnSharedPreferenceChangeListener {
 	

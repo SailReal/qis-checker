@@ -1,4 +1,4 @@
-package de.hfu.studiportal.view;
+package de.albsig.qischecker.view;
 
 import android.app.SearchManager;
 import android.content.Context;
@@ -13,9 +13,9 @@ import android.view.MenuItem;
 import android.support.v7.widget.SearchView;
 import android.widget.Toast;
 
-import de.hfu.funfpunktnull.R;
-import de.hfu.studiportal.data.ExamCategory;
-import de.hfu.studiportal.data.StudiportalData;
+import de.albsig.funfpunktnull.R;
+import de.albsig.qischecker.data.ExamCategory;
+import de.albsig.qischecker.data.StudiportalData;
 
 public class ExamSearchActivity extends DialogHostActivity {
 

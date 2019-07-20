@@ -1,4 +1,4 @@
-package de.hfu.studiportal.network;
+package de.albsig.qischecker.network;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -25,12 +25,12 @@ import android.os.AsyncTask;
 import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
-import de.hfu.funfpunktnull.R;
-import de.hfu.studiportal.data.Exam;
-import de.hfu.studiportal.data.StudiportalData;
-import de.hfu.studiportal.view.DialogHost;
-import de.hfu.studiportal.view.ExamActivity;
-import de.hfu.studiportal.view.MainActivity;
+import de.albsig.funfpunktnull.R;
+import de.albsig.qischecker.data.Exam;
+import de.albsig.qischecker.data.StudiportalData;
+import de.albsig.qischecker.view.DialogHost;
+import de.albsig.qischecker.view.ExamActivity;
+import de.albsig.qischecker.view.MainActivity;
 
 public class RefreshTask extends AsyncTask<Void, Void, Exception> {
 

@@ -1,4 +1,4 @@
-package de.hfu.studiportal.view;
+package de.albsig.qischecker.view;
 
 import android.app.Activity;
 import android.content.Context;
@@ -17,9 +17,9 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
-import de.hfu.funfpunktnull.R;
-import de.hfu.studiportal.data.Exam;
-import de.hfu.studiportal.data.Seperator;
+import de.albsig.funfpunktnull.R;
+import de.albsig.qischecker.data.Exam;
+import de.albsig.qischecker.data.Seperator;
 
 public class ExamCategoryAdapter extends RecyclerView.Adapter<ExamCategoryAdapter.ViewHolder> {
 

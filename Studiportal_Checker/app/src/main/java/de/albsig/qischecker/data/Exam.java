@@ -1,9 +1,8 @@
-package de.hfu.studiportal.data;
+package de.albsig.qischecker.data;
 
 import java.io.Serializable;
 
 import android.content.Context;
-import de.hfu.funfpunktnull.R;
 
 public class Exam implements Serializable {
 

@@ -1,4 +1,4 @@
-package de.hfu.studiportal.data;
+package de.albsig.qischecker.data;
 
 public class Seperator extends Exam {
 

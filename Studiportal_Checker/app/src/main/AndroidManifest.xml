@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="de.hfu.funfpunktnull">
+    package="de.albsig.funfpunktnull">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
@@ -13,7 +13,7 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name="de.hfu.studiportal.view.MainActivity"
+            android:name="de.albsig.qischecker.view.MainActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait">
             <intent-filter>
@@ -23,21 +23,21 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="de.hfu.studiportal.view.LoginActivity"
+            android:name="de.albsig.qischecker.view.LoginActivity"
             android:label="@string/text_activity_login_title"
             android:screenOrientation="portrait">
         </activity>
         <activity
-            android:name="de.hfu.studiportal.view.PreferencesActivity"
+            android:name="de.albsig.qischecker.view.PreferencesActivity"
             android:label="@string/app_name" >
         </activity>
         <activity
-            android:name="de.hfu.studiportal.view.ExamActivity"
+            android:name="de.albsig.qischecker.view.ExamActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait">
         </activity>
         <activity
-            android:name="de.hfu.studiportal.view.ExamSearchActivity"
+            android:name="de.albsig.qischecker.view.ExamSearchActivity"
             android:label="@string/text_search_result"
             android:launchMode="singleTop"
             android:screenOrientation="portrait">
@@ -50,7 +50,7 @@
                 android:resource="@xml/searchable" />
         </activity>
 
-        <receiver android:name="de.hfu.studiportal.network.RefreshTaskStarter" >
+        <receiver android:name="de.albsig.qischecker.network.RefreshTaskStarter" >
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>

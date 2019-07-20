@@ -1,10 +1,10 @@
-package de.hfu.studiportal.view;
+package de.albsig.qischecker.view;
 
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
-import de.hfu.funfpunktnull.R;
+import de.albsig.funfpunktnull.R;
 
 /**
  * Empty Activity to hold the {@link PreferencesFragment}

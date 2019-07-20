@@ -1,4 +1,4 @@
-package de.hfu.studiportal.network;
+package de.albsig.qischecker.network;
 
 import android.app.Activity;
 import android.app.AlarmManager;
@@ -12,12 +12,12 @@ import android.preference.PreferenceManager;
 
 import java.util.concurrent.TimeUnit;
 
-import de.hfu.funfpunktnull.R;
-import de.hfu.studiportal.view.LoginActivity;
+import de.albsig.funfpunktnull.R;
+import de.albsig.qischecker.view.LoginActivity;
 
 public class RefreshTaskStarter extends BroadcastReceiver {
 
-	private static final String CHECK_FOR_UPDATES = "de.hfu.studiportal.CHECK_FOR_UPDATES";
+	private static final String CHECK_FOR_UPDATES = "de.albsig.studiportal.CHECK_FOR_UPDATES";
 
 	@Override
 	public void onReceive(Context context, Intent intent) {

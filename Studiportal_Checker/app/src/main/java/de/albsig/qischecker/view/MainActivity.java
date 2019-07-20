@@ -1,4 +1,4 @@
-package de.hfu.studiportal.view;
+package de.albsig.qischecker.view;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -18,11 +18,11 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import de.hfu.funfpunktnull.R;
-import de.hfu.studiportal.data.ExamCategory;
-import de.hfu.studiportal.network.NoChangeException;
-import de.hfu.studiportal.network.RefreshTask;
-import de.hfu.studiportal.network.RefreshTaskStarter;
+import de.albsig.funfpunktnull.R;
+import de.albsig.qischecker.data.ExamCategory;
+import de.albsig.qischecker.network.NoChangeException;
+import de.albsig.qischecker.network.RefreshTask;
+import de.albsig.qischecker.network.RefreshTaskStarter;
 
 public class MainActivity extends DialogHostActivity implements Refreshable, AdapterView.OnItemClickListener, View.OnClickListener {
 

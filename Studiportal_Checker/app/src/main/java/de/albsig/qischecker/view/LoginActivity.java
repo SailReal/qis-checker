@@ -1,4 +1,4 @@
-package de.hfu.studiportal.view;
+package de.albsig.qischecker.view;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -10,11 +10,11 @@ import android.text.InputType;
 import android.view.View;
 import android.widget.EditText;
 
-import de.hfu.funfpunktnull.R;
-import de.hfu.studiportal.network.LoginException;
-import de.hfu.studiportal.network.LoginVerifactionTask;
-import de.hfu.studiportal.network.NoChangeException;
-import de.hfu.studiportal.network.RefreshTask;
+import de.albsig.funfpunktnull.R;
+import de.albsig.qischecker.network.LoginException;
+import de.albsig.qischecker.network.LoginVerifactionTask;
+import de.albsig.qischecker.network.NoChangeException;
+import de.albsig.qischecker.network.RefreshTask;
 
 public class LoginActivity extends DialogHostActivity implements DialogHost {
 	

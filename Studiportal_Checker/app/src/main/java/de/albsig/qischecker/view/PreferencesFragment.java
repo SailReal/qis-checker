@@ -1,4 +1,4 @@
-package de.hfu.studiportal.view;
+package de.albsig.qischecker.view;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -19,8 +19,8 @@ import android.view.ViewGroup;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import de.hfu.funfpunktnull.R;
-import de.hfu.studiportal.network.RefreshTaskStarter;
+import de.albsig.funfpunktnull.R;
+import de.albsig.qischecker.network.RefreshTaskStarter;
 
 /**
  * Fragment to display the settings.xml

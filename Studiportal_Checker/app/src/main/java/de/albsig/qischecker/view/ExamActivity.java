@@ -1,11 +1,11 @@
-package de.hfu.studiportal.view;
+package de.albsig.qischecker.view;
 
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.widget.TextView;
 
-import de.hfu.funfpunktnull.R;
-import de.hfu.studiportal.data.Exam;
+import de.albsig.funfpunktnull.R;
+import de.albsig.qischecker.data.Exam;
 
 public class ExamActivity extends DialogHostActivity {
 	

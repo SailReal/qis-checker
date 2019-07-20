@@ -1,4 +1,4 @@
-package de.hfu.studiportal.data;
+package de.albsig.qischecker.data;
 
 import java.io.Serializable;
 import java.util.ArrayList;
