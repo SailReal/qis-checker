@@ -34,10 +34,12 @@ import de.hfu.studiportal.view.MainActivity;
 
 public class RefreshTask extends AsyncTask<Void, Void, Exception> {
 
-	private final String URL_LOGIN = "https://studi-portal.hs-furtwangen.de/qisserver/rds?state=user&type=1&category=auth.login&startpage=portal.vm&breadCrumbSource=portal";
-	private final String URL_LOGOUT = "https://studi-portal.hs-furtwangen.de/qisserver/rds?state=user&type=4&re=last&category=auth.logout&breadCrumbSource=portal";
-	private final String URL_FETCH_ASI = "https://studi-portal.hs-furtwangen.de/qisserver/rds?state=change&type=1&moduleParameter=studyPOSMenu&nextdir=change&next=menu.vm&subdir=applications&xml=menu&purge=y&navigationPosition=functions%2CstudyPOSMenu&breadcrumb=studyPOSMenu&topitem=functions&subitem=studyPOSMenu";
-	private final String URL_OBSERVE = "https://studi-portal.hs-furtwangen.de/qisserver/rds?state=htmlbesch&moduleParameter=Student&menuid=notenspiegel&breadcrumb=notenspiegel&breadCrumbSource=menu&asi=%s";
+	private final String URL_LOGIN = "https://qis.hs-albsig.de/qisserver/rds?state=user&type=1&category=auth.login&startpage=portal.vm";
+	private final String URL_LOGOUT = "https://qis.hs-albsig.de/qisserver/rds?state=user&type=4&re=last&category=auth.logout&breadCrumbSource=portal&topitem=functions";
+	private final String URL_FETCH_ASI = "https://qis.hs-albsig.de/qisserver/rds?state=change&type=1&moduleParameter=studyPOSMenu&nextdir=change&next=menu.vm&subdir=applications&xml=menu&purge=y&navigationPosition=functions%2CstudyPOSMenu&breadcrumb=studyPOSMenu&topitem=functions&subitem=studyPOSMenu";
+	//private final String URL_OBSERVE = "https://studi-portal.hs-furtwangen.de/qisserver/rds?state=htmlbesch&moduleParameter=Student&menuid=notenspiegel&breadcrumb=notenspiegel&breadCrumbSource=menu&asi=%s";
+	private final String URL_OBSERVE = "https://qis.hs-albsig.de/qisserver/rds?state=notenspiegelStudent&next=list.vm&nextdir=qispos/notenspiegel/student&createInfos=Y&struct=auswahlBaum&nodeID=%s&expand=0&asi=%s";
+	private final String MENU_ITEM = "auswahlBaum%7Cabschluss%3Aabschl%3D90%2Cstgnr%3D1"; // Temporary
 
 	private final String USER_NAME;
 	private final String PASSWORD;
@@ -195,7 +197,7 @@ public class RefreshTask extends AsyncTask<Void, Void, Exception> {
 	}
 
 	private boolean checkDataChange(HttpClient client, String asi) throws Exception {
-		String response = this.sendGet(client, String.format(this.URL_OBSERVE, asi));
+		String response = this.sendGet(client, String.format(this.URL_OBSERVE, MENU_ITEM,asi));
 		int start = response.indexOf("<table cellspacing=\"0\" cellpadding=\"5\" border=\"0\" align=\"center\" width=\"100%\">");
 		int end = response.indexOf("</table>", start);
 		String table = response.substring(start, end);
