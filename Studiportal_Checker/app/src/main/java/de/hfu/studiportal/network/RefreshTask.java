@@ -263,7 +263,7 @@ public class RefreshTask extends AsyncTask<Void, Void, Exception> {
 	private void showNotification(String title, String text, int id, Intent resultIntent) {
 		NotificationCompat.Builder mBuilder =
 				new NotificationCompat.Builder(this.getContext())
-		.setSmallIcon(R.drawable.ic_notification)
+		.setSmallIcon(R.drawable.albsig_logo_white)
 		.setContentTitle(title)
 		.setContentText(text);
 

@@ -52,7 +52,7 @@ public class ExamCategoryAdapter extends RecyclerView.Adapter<ExamCategoryAdapte
 		this.ATTEMPT = context.getString(R.string.text_attempt);
 		this.GRADE = context.getString(R.string.text_grade);
         this.IC_AN = context.getResources().getDrawable(R.drawable.ic_an);
-        this.IC_BE = context.getResources().getDrawable(R.drawable.ic_be);
+        this.IC_BE = context.getResources().getDrawable(R.drawable.ic_be_neu);
         this.IC_EN = context.getResources().getDrawable(R.drawable.ic_en);
         this.IC_NB = context.getResources().getDrawable(R.drawable.ic_nb);
         this.IC_RE = context.getResources().getDrawable(R.drawable.ic_re);

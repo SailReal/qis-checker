@@ -61,16 +61,16 @@
     </LinearLayout>
 
     <ImageView
+        android:id="@+id/imageView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/imageView"
-        android:src="@drawable/ic_hfu_big"
-        android:layout_alignLeft="@+id/linearLayout"
+        android:layout_above="@+id/linearLayout"
         android:layout_alignStart="@+id/linearLayout"
-        android:layout_alignRight="@+id/linearLayout"
+        android:layout_alignLeft="@+id/linearLayout"
         android:layout_alignEnd="@+id/linearLayout"
+        android:layout_alignRight="@+id/linearLayout"
         android:layout_alignParentTop="true"
         android:layout_marginTop="50dp"
-        android:layout_above="@+id/linearLayout" />
+        android:src="@drawable/albsig_logo_white" />
 
 </RelativeLayout>

@@ -38,11 +38,12 @@
             android:id="@+id/buttonSearch"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/abc_ic_search_api_mtrl_alpha"
-            android:layout_marginBottom="@dimen/fap_margin"
-            android:layout_marginRight="@dimen/fap_margin"
             android:layout_gravity="bottom|right"
+            android:layout_marginRight="@dimen/fap_margin"
+            android:layout_marginBottom="@dimen/fap_margin"
             android:elevation="8dp"
+            android:src="@drawable/abc_ic_search_api_mtrl_alpha"
+            app:backgroundTint="@color/color_main_style_dark"
             app:borderWidth="0dp"
             app:elevation="8dp"
             app:fabSize="normal" />
@@ -62,41 +63,35 @@
             android:layout_height="150dp"
             android:background="@color/color_white">
 
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_gravity="top"
-                android:scaleType="centerCrop"
-                android:src="@drawable/navigation_drawer_title" />
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:padding="@dimen/gap_default_double"
-                android:theme="@style/ThemeOverlay.AppCompat.Dark"
+                android:background="@color/color_main_style"
+                android:gravity="bottom"
                 android:orientation="vertical"
-                android:gravity="bottom">
+                android:padding="@dimen/gap_default_double"
+                android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/app_name"
+                    android:shadowColor="@color/text_shadow"
                     android:shadowDx="0"
                     android:shadowDy="0"
                     android:shadowRadius="4"
-                    android:shadowColor="@color/text_shadow"
-                    android:textStyle="bold"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+                    android:text="@string/app_name"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/textViewUser"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/text_placeholder"
+                    android:shadowColor="@color/text_shadow"
                     android:shadowDx="0"
                     android:shadowDy="0"
                     android:shadowRadius="4"
-                    android:shadowColor="@color/text_shadow"
+                    android:text="@string/text_placeholder"
                     android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
             </LinearLayout>

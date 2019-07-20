@@ -45,7 +45,7 @@ public class ExamActivity extends DialogHostActivity {
 		int d = 0;
 		switch (e.getState()) {
 		case "Prüfung vorhanden": d = R.drawable.ic_an; break;
-		case "bestanden": d = R.drawable.ic_be; break;
+		case "bestanden": d = R.drawable.ic_be_neu; break;
 		case "nicht bestanden": d = R.drawable.ic_nb; break;
 		case "endgültig nicht bestanden": d = R.drawable.ic_en; break;
 		default:
