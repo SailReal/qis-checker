@@ -55,7 +55,7 @@
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
             <intent-filter>
-                <action android:name="de.hfu.studiportal.CHECK_FOR_UPDATES" />
+                <action android:name="de.albsig.qischecker.CHECK_FOR_UPDATES" />
             </intent-filter>
             <intent-filter>
                 <action android:name="android.net.wifi.STATE_CHANGE" />
