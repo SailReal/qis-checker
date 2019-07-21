@@ -1,8 +1,9 @@
 package de.albsig.qischecker.view;
 
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
 import android.widget.TextView;
+
+import androidx.appcompat.widget.Toolbar;
 
 import de.albsig.qischecker.R;
 import de.albsig.qischecker.data.Exam;
@@ -19,7 +20,7 @@ public class ExamActivity extends DialogHostActivity {
         this.setContentView(R.layout.activity_exam);
 
         //Set up Toolbar
-        Toolbar bar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar bar = findViewById(R.id.toolbar);
         this.setSupportActionBar(bar);
 
         //Get arg

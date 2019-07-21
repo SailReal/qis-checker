@@ -6,17 +6,19 @@ import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.design.widget.Snackbar;
-import android.support.v4.app.Fragment;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
+
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.widget.Toolbar;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
+
+import com.google.android.material.snackbar.Snackbar;
 
 import de.albsig.qischecker.R;
 import de.albsig.qischecker.data.ExamCategory;
@@ -55,16 +57,16 @@ public class MainActivity extends DialogHostActivity implements Refreshable, Ada
         String user = prefs.getString(this.getString(R.string.preference_user), "");
 
         //Set username
-        TextView userView = (TextView) this.findViewById(R.id.textViewUser);
+        TextView userView = this.findViewById(R.id.textViewUser);
         userView.setText(user);
 
         //Set up Toolbar
-        Toolbar bar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar bar = findViewById(R.id.toolbar);
         this.setSupportActionBar(bar);
         this.getSupportActionBar().setTitle(this.getString(R.string.app_name));
 
         //Set Up Navigation Drawer
-        this.drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        this.drawerLayout = findViewById(R.id.drawer_layout);
 
         //Set up drawer toggle which will be put in the left side of the ActionBar
         this.drawerToggle = new ActionBarDrawerToggle(

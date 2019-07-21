@@ -7,12 +7,13 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.v7.app.ActionBarActivity;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import de.albsig.qischecker.R;
 
 @SuppressLint("Registered")
-public abstract class DialogHostActivity extends ActionBarActivity implements DialogHost {
+public abstract class DialogHostActivity extends AppCompatActivity implements DialogHost {
 
     private ProgressDialog progressDialog;
     private MessageHandler handler;

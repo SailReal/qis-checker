@@ -5,13 +5,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.v4.view.MenuItemCompat;
-import android.support.v7.widget.SearchView;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
+
+import androidx.appcompat.widget.SearchView;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.MenuItemCompat;
 
 import de.albsig.qischecker.R;
 import de.albsig.qischecker.data.ExamCategory;
@@ -39,7 +40,7 @@ public class ExamSearchActivity extends DialogHostActivity {
         setContentView(R.layout.activity_exam_search);
 
         //Set up Toolbar
-        Toolbar bar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar bar = findViewById(R.id.toolbar);
         this.setSupportActionBar(bar);
 
         //Enable home as up

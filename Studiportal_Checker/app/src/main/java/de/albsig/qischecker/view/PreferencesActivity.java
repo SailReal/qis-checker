@@ -1,8 +1,9 @@
 package de.albsig.qischecker.view;
 
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+
+import androidx.appcompat.widget.Toolbar;
 
 import de.albsig.qischecker.R;
 
@@ -24,7 +25,7 @@ public class PreferencesActivity extends DialogHostActivity {
         setContentView(R.layout.activity_preferences);
 
         //Set up Toolbar
-        Toolbar bar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar bar = findViewById(R.id.toolbar);
         this.setSupportActionBar(bar);
         this.getSupportActionBar().setTitle(this.getString(R.string.text_activity_preferences_title));
         this.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
