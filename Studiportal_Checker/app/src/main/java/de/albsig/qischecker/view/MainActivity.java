@@ -18,7 +18,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import de.albsig.funfpunktnull.R;
+import de.albsig.qischecker.R;
 import de.albsig.qischecker.data.ExamCategory;
 import de.albsig.qischecker.network.NoChangeException;
 import de.albsig.qischecker.network.RefreshTask;
@@ -26,27 +26,29 @@ import de.albsig.qischecker.network.RefreshTaskStarter;
 
 public class MainActivity extends DialogHostActivity implements Refreshable, AdapterView.OnItemClickListener, View.OnClickListener {
 
-	private ExamCategoryArrayAdapter examCategoryAdapter;
+    public static final String QIS_URL = "https://qis.hs-albsig.de/";
+
+    private ExamCategoryArrayAdapter examCategoryAdapter;
     private ActionBarDrawerToggle drawerToggle;
     private DrawerLayout drawerLayout;
-	private boolean isDestroyed = false;
+    private boolean isDestroyed = false;
     private ListView examCategoryList;
     private Integer selectedCategory = 0;
 
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
 
         //If the user is empty, forward to LoginActivity
-        if(!this.isLoggedIn()) {
+        if (!this.isLoggedIn()) {
             Intent i = new Intent(this, LoginActivity.class);
             this.startActivity(i);
             this.finish();
             return;
         }
 
-		//Build View
-		this.setContentView(R.layout.activity_main);
+        //Build View
+        this.setContentView(R.layout.activity_main);
 
         //Load user name and password
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
@@ -100,11 +102,11 @@ public class MainActivity extends DialogHostActivity implements Refreshable, Ada
         this.findViewById(R.id.buttonSearch).setOnClickListener(this);
 
         //Set Up View
-		this.onRefresh();
+        this.onRefresh();
 
         //Start Background Service
         RefreshTaskStarter.startRefreshTask(this);
-	}
+    }
 
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
@@ -119,88 +121,88 @@ public class MainActivity extends DialogHostActivity implements Refreshable, Ada
         this.drawerToggle.onConfigurationChanged(newConfig);
     }
 
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		getMenuInflater().inflate(R.menu.activity_main, menu);
-		return super.onCreateOptionsMenu(menu);
-	
-	}
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.activity_main, menu);
+        return super.onCreateOptionsMenu(menu);
 
-	@Override
-	protected void onResume() {
-		super.onResume();
-		this.cancelProgressDialog();
+    }
 
-	}
+    @Override
+    protected void onResume() {
+        super.onResume();
+        this.cancelProgressDialog();
 
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
 
         if (this.drawerToggle.onOptionsItemSelected(item)) {
             return true;
         }
 
-		if(item.getItemId() == R.id.action_refresh) {
-			new RefreshTask(this).execute();
+        if (item.getItemId() == R.id.action_refresh) {
+            new RefreshTask(this).execute();
 
-			return true;
-		}
+            return true;
+        }
 
-		if(item.getItemId() == R.id.action_preferences) {
-			Intent i = new Intent(this, PreferencesActivity.class);
-			this.startActivity(i);
+        if (item.getItemId() == R.id.action_preferences) {
+            Intent i = new Intent(this, PreferencesActivity.class);
+            this.startActivity(i);
 
-			return true;
-		}
+            return true;
+        }
 
-		if(item.getItemId() == R.id.action_open_online) {
-			Intent i = new Intent(Intent.ACTION_VIEW);
-			i.setData(Uri.parse("https://studi-portal.hs-furtwangen.de/"));
-			this.startActivity(i);
+        if (item.getItemId() == R.id.action_open_online) {
+            Intent i = new Intent(Intent.ACTION_VIEW);
+            i.setData(Uri.parse(QIS_URL));
+            this.startActivity(i);
 
-			return true;
-		}
+            return true;
+        }
 
-		return super.onOptionsItemSelected(item);
+        return super.onOptionsItemSelected(item);
 
-	}
+    }
 
-	@Override
-	public void showErrorDialog(final Exception e) {
+    @Override
+    public void showErrorDialog(final Exception e) {
 
-		if(e instanceof NoChangeException) {
-			//No change
+        if (e instanceof NoChangeException) {
+            //No change
             Snackbar.make(this.findViewById(R.id.coordinatorLayout), getResources().getString(R.string.text_no_change), Snackbar.LENGTH_LONG).show();
 
-		}else {
-			super.showErrorDialog(e);
+        } else {
+            super.showErrorDialog(e);
 
-		}
-	}
-	
-	@Override
-	protected void onDestroy() {
-		synchronized(this) {
-			this.isDestroyed = true;
-		}
-		
-		this.dismiss();
-		
-		super.onDestroy();
-		
-	}
+        }
+    }
 
-	@Override
-	public synchronized void onRefresh() {
-		if(this.isDestroyed)
-			return;
+    @Override
+    protected void onDestroy() {
+        synchronized (this) {
+            this.isDestroyed = true;
+        }
+
+        this.dismiss();
+
+        super.onDestroy();
+
+    }
+
+    @Override
+    public synchronized void onRefresh() {
+        if (this.isDestroyed)
+            return;
 
         //Create ExamCategoryAdapter
         this.examCategoryAdapter = new ExamCategoryArrayAdapter(this, this);
 
         //Set adapter
         this.examCategoryList.setAdapter(this.examCategoryAdapter);
-        
+
         //Update fragment
         this.showCategory(this.selectedCategory);
 
@@ -224,12 +226,12 @@ public class MainActivity extends DialogHostActivity implements Refreshable, Ada
         String password = prefs.getString(this.getString(R.string.preference_password), "");
 
         //If the user is empty, forward to LoginActivity
-        return user.length() != 0 &&  password.length() != 0;
+        return user.length() != 0 && password.length() != 0;
     }
 
     private void showCategory(int categoryIndex) {
         //Check if at least one category is available or the activity was destroyed, cancel if not
-        if(this.examCategoryAdapter.getCount() == 0 || this.isDestroyed || !this.isLoggedIn()) {
+        if (this.examCategoryAdapter.getCount() == 0 || this.isDestroyed || !this.isLoggedIn()) {
             return;
         }
 
@@ -257,7 +259,7 @@ public class MainActivity extends DialogHostActivity implements Refreshable, Ada
 
     @Override
     public void onClick(View v) {
-        if(v == this.findViewById(R.id.buttonSearch)) {
+        if (v == this.findViewById(R.id.buttonSearch)) {
             Intent i = new Intent(this, ExamSearchActivity.class);
             this.startActivity(i);
 

@@ -17,18 +17,18 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
-import de.albsig.funfpunktnull.R;
+import de.albsig.qischecker.R;
 import de.albsig.qischecker.data.Exam;
 import de.albsig.qischecker.data.Seperator;
 
 public class ExamCategoryAdapter extends RecyclerView.Adapter<ExamCategoryAdapter.ViewHolder> {
 
-	private final String ECTS;
-	private final String NO_ECTS;
-	private final String STATE;
-	private final String SEMESTER;
-	private final String ATTEMPT;
-	private final String GRADE;
+    private final String ECTS;
+    private final String NO_ECTS;
+    private final String STATE;
+    private final String SEMESTER;
+    private final String ATTEMPT;
+    private final String GRADE;
     private final Drawable IC_AN;
     private final Drawable IC_EN;
     private final Drawable IC_NB;
@@ -40,17 +40,17 @@ public class ExamCategoryAdapter extends RecyclerView.Adapter<ExamCategoryAdapte
 
     private int animationStep = 0;
 
-	public ExamCategoryAdapter(Context context, List<Exam> objects) {
+    public ExamCategoryAdapter(Context context, List<Exam> objects) {
         this.objects = objects;
 
         this.animationStep = this.objects.size();
 
-		this.ECTS = context.getString(R.string.text_ects);
-		this.NO_ECTS = context.getString(R.string.text_no_ects);
-		this.STATE = context.getString(R.string.text_state);
-		this.SEMESTER = context.getString(R.string.text_semester);
-		this.ATTEMPT = context.getString(R.string.text_attempt);
-		this.GRADE = context.getString(R.string.text_grade);
+        this.ECTS = context.getString(R.string.text_ects);
+        this.NO_ECTS = context.getString(R.string.text_no_ects);
+        this.STATE = context.getString(R.string.text_state);
+        this.SEMESTER = context.getString(R.string.text_semester);
+        this.ATTEMPT = context.getString(R.string.text_attempt);
+        this.GRADE = context.getString(R.string.text_grade);
         this.IC_AN = context.getResources().getDrawable(R.drawable.ic_an);
         this.IC_BE = context.getResources().getDrawable(R.drawable.ic_be_neu);
         this.IC_EN = context.getResources().getDrawable(R.drawable.ic_en);
@@ -77,88 +77,96 @@ public class ExamCategoryAdapter extends RecyclerView.Adapter<ExamCategoryAdapte
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-		//Get Exam
-		Exam e = this.objects.get(position);
+        //Get Exam
+        Exam e = this.objects.get(position);
 
         //Save context
         Context ctx = holder.itemView.getContext();
 
-		//If e is a seperator hide all views, if not show them all
-		if(e instanceof Seperator) {
-			holder.itemView.setVisibility(View.GONE);
+        //If e is a seperator hide all views, if not show them all
+        if (e instanceof Seperator) {
+            holder.itemView.setVisibility(View.GONE);
             holder.itemView.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, 60));
 
-			return;
+            return;
 
-		} else {
+        } else {
             holder.itemView.setVisibility(View.VISIBLE);
             holder.itemView.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
 
             holder.itemView.setVisibility(View.VISIBLE);
-			for(TextView v : holder.textViews)
-				v.setVisibility(View.VISIBLE);
+            for (TextView v : holder.textViews)
+                v.setVisibility(View.VISIBLE);
 
-		}
+        }
 
-		//Get Kind
-		Exam.Kind kind = e.getKindEnum();
+        //Get Kind
+        Exam.Kind kind = e.getKindEnum();
 
-		//Set title and exam no
+        //Set title and exam no
         holder.textViews.get(0).setText(e.getName());
 
-		//Fill Views with data
-		switch(kind) {
-		case F:
-        case K:
-        case L:
-        case S:
-        case Z:
-        case MO:
-        case MP:
-        case MT:
-		case G: 
-			//First field
-            if (e.getState() == "Prüfung vorhanden") {
-                //If e is only AN, there is no grade to show. Display state: an
-                holder.textViews.get(1).setText(String.format("%s: %s (%s %s)", this.STATE, e.getState(), e.getECTS(), this.ECTS));
+        //Fill Views with data
+        switch (kind) {
+            case F:
+            case K:
+            case L:
+            case S:
+            case Z:
+            case MO:
+            case MP:
+            case MT:
+            case G:
+                //First field
+                if (e.getState() == "Prüfung vorhanden") {
+                    //If e is only AN, there is no grade to show. Display state: an
+                    holder.textViews.get(1).setText(String.format("%s: %s (%s %s)", this.STATE, e.getState(), e.getECTS(), this.ECTS));
 
-            } else {
-                //e is not an -> be, nb or en. Show grade and ects
-                holder.textViews.get(1).setText(String.format("%s: %s (%s %s)", this.GRADE, e.getGrade(), e.getECTS(), this.ECTS));
+                } else {
+                    //e is not an -> be, nb or en. Show grade and ects
+                    holder.textViews.get(1).setText(String.format("%s: %s (%s %s)", this.GRADE, e.getGrade(), e.getECTS(), this.ECTS));
 
-            }
+                }
 
-            //Second Field
-            if (e.getKindEnum() == Exam.Kind.G) {
-                //If e is generatde, show only the semester
-                holder.textViews.get(2).setText(String.format("%s: %s", this.SEMESTER, e.getSemester()));
+                //Second Field
+                if (e.getKindEnum() == Exam.Kind.G) {
+                    //If e is generatde, show only the semester
+                    holder.textViews.get(2).setText(String.format("%s: %s", this.SEMESTER, e.getSemester()));
 
-            } else {
-                //Else show attempt and semester
-                holder.textViews.get(2).setText(String.format("%s: %s (%s)", this.ATTEMPT, e.getTryCount(), e.getSemester()));
+                } else {
+                    //Else show attempt and semester
+                    holder.textViews.get(2).setText(String.format("%s: %s (%s)", this.ATTEMPT, e.getTryCount(), e.getSemester()));
 
-            }
+                }
 
-			break;
+                break;
 
-		case UNDEFINED:
-		default:
-			//This should not happen. show state an Kind
-            holder.textViews.get(1).setText(String.format("%s: %s", this.STATE, e.getState()));
-            holder.textViews.get(2).setText(e.getKind());
+            case UNDEFINED:
+            default:
+                //This should not happen. show state an Kind
+                holder.textViews.get(1).setText(String.format("%s: %s", this.STATE, e.getState()));
+                holder.textViews.get(2).setText(e.getKind());
 
-			break;
+                break;
 
-		}
+        }
 
-		//Set icon
-		switch (e.getState()) {
-            case "Prüfung vorhanden": holder.imageView.setImageDrawable(this.IC_AN); break;
-            case "bestanden": holder.imageView.setImageDrawable(this.IC_BE); break;
-            case "nicht bestanden": holder.imageView.setImageDrawable(this.IC_NB); break;
-            case "endgültig nicht bestanden": holder.imageView.setImageDrawable(this.IC_EN); break;
-		}
-	}
+        //Set icon
+        switch (e.getState()) {
+            case "Prüfung vorhanden":
+                holder.imageView.setImageDrawable(this.IC_AN);
+                break;
+            case "bestanden":
+                holder.imageView.setImageDrawable(this.IC_BE);
+                break;
+            case "nicht bestanden":
+                holder.imageView.setImageDrawable(this.IC_NB);
+                break;
+            case "endgültig nicht bestanden":
+                holder.imageView.setImageDrawable(this.IC_EN);
+                break;
+        }
+    }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
@@ -193,7 +201,7 @@ public class ExamCategoryAdapter extends RecyclerView.Adapter<ExamCategoryAdapte
                 final int max = ExamCategoryAdapter.this.objects.size();
 
                 //Make at most 20 animation steps (more items wont be visible), but not more then items available
-                for(int i=0; i<20 && i<=max; i++) {
+                for (int i = 0; i < 20 && i <= max; i++) {
                     final int I = i;
 
                     //Run UI Thread
@@ -201,7 +209,7 @@ public class ExamCategoryAdapter extends RecyclerView.Adapter<ExamCategoryAdapte
                         @Override
                         public void run() {
                             //Animate in
-                            ExamCategoryAdapter.this.animationStep = I+1 < max ? I+1 : I;
+                            ExamCategoryAdapter.this.animationStep = I + 1 < max ? I + 1 : I;
                             ExamCategoryAdapter.this.notifyItemInserted(I);
                         }
                     });
@@ -228,13 +236,13 @@ public class ExamCategoryAdapter extends RecyclerView.Adapter<ExamCategoryAdapte
 
                 //Make the rest of the items available, this will be off-screen
                 activity.runOnUiThread(new Runnable() {
-                   @Override
-                   public void run() {
-                       ExamCategoryAdapter.this.animationStep = ExamCategoryAdapter.this.objects.size();
-                       ExamCategoryAdapter.this.notifyDataSetChanged();
+                    @Override
+                    public void run() {
+                        ExamCategoryAdapter.this.animationStep = ExamCategoryAdapter.this.objects.size();
+                        ExamCategoryAdapter.this.notifyDataSetChanged();
 
-                   }
-               });
+                    }
+                });
             }
         });
     }

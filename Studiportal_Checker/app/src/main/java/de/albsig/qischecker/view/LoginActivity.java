@@ -10,90 +10,90 @@ import android.text.InputType;
 import android.view.View;
 import android.widget.EditText;
 
-import de.albsig.funfpunktnull.R;
+import de.albsig.qischecker.R;
 import de.albsig.qischecker.network.LoginException;
 import de.albsig.qischecker.network.LoginVerifactionTask;
 import de.albsig.qischecker.network.NoChangeException;
 import de.albsig.qischecker.network.RefreshTask;
 
 public class LoginActivity extends DialogHostActivity implements DialogHost {
-	
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		
-		//inflate Layout
-		this.setContentView(R.layout.activity_login);
-		
-		//Get SharedPrefs
-		SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
-		
-		//Set editTextPassword font and content
-		EditText password = (EditText) findViewById(R.id.editTextPassword);
-		password.setText(sp.getString(getResources().getString(R.string.preference_password), ""));
-		password.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
-		password.setTypeface(Typeface.DEFAULT);
 
-		//Set editTextUser content
-		EditText user = (EditText) findViewById(R.id.editTextUser);
-		user.setText(sp.getString(getResources().getString(R.string.preference_user), ""));
-				
-	}
-	
-	@Override
-	protected void onDestroy() {
-		super.onDestroy();	
-		this.dismiss();
-		
-	}
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
 
-	public void checkEnteredData(View v) {
-		if(this.getEnteredPassword().length() == 0 || this.getEnteredUsername().length() == 0) {
-			this.showDialog(getResources().getString(R.string.text_error), getResources().getString(R.string.text_enter_user_password));
-			return;
-			
-		}
-			
-		RefreshTask rt = new LoginVerifactionTask(this, 
-				this.getEnteredUsername(),
-				this.getEnteredPassword());
-		rt.execute();
-	}
-	
-	private String getEnteredPassword() {
-		return ((EditText) findViewById(R.id.editTextPassword)).getText().toString();
-	}
-	
-	private String getEnteredUsername() {
-		return ((EditText) findViewById(R.id.editTextUser)).getText().toString();
-	}
-	
-	public void saveEnteredData() {
-		Editor sp = PreferenceManager.getDefaultSharedPreferences(this).edit();
-		sp.putString(getResources().getString(R.string.preference_password), this.getEnteredPassword());
-		sp.putString(getResources().getString(R.string.preference_user), this.getEnteredUsername());
-		sp.apply();
-		
-		//Start the new activity if available
-		Bundle extras = (Bundle) getIntent().getExtras();
+        //inflate Layout
+        this.setContentView(R.layout.activity_login);
 
-		//Forward to MainActivity
-		Intent i = new Intent(this, MainActivity.class);
-		this.startActivity(i);
-		
+        //Get SharedPrefs
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
 
-		//finish this
-		this.finish();
-	}
-	
-	@Override
-	public void showErrorDialog(Exception e) {
-		if(e instanceof LoginException) {
-			this.showDialog(getString(R.string.text_error), getString(R.string.exception_wrong_user_password_long));
+        //Set editTextPassword font and content
+        EditText password = (EditText) findViewById(R.id.editTextPassword);
+        password.setText(sp.getString(getResources().getString(R.string.preference_password), ""));
+        password.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+        password.setTypeface(Typeface.DEFAULT);
 
-		} else if(!(e instanceof NoChangeException)) {
-			super.showErrorDialog(e);
+        //Set editTextUser content
+        EditText user = (EditText) findViewById(R.id.editTextUser);
+        user.setText(sp.getString(getResources().getString(R.string.preference_user), ""));
 
-		}
-	}
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        this.dismiss();
+
+    }
+
+    public void checkEnteredData(View v) {
+        if (this.getEnteredPassword().length() == 0 || this.getEnteredUsername().length() == 0) {
+            this.showDialog(getResources().getString(R.string.text_error), getResources().getString(R.string.text_enter_user_password));
+            return;
+
+        }
+
+        RefreshTask rt = new LoginVerifactionTask(this,
+                this.getEnteredUsername(),
+                this.getEnteredPassword());
+        rt.execute();
+    }
+
+    private String getEnteredPassword() {
+        return ((EditText) findViewById(R.id.editTextPassword)).getText().toString();
+    }
+
+    private String getEnteredUsername() {
+        return ((EditText) findViewById(R.id.editTextUser)).getText().toString();
+    }
+
+    public void saveEnteredData() {
+        Editor sp = PreferenceManager.getDefaultSharedPreferences(this).edit();
+        sp.putString(getResources().getString(R.string.preference_password), this.getEnteredPassword());
+        sp.putString(getResources().getString(R.string.preference_user), this.getEnteredUsername());
+        sp.apply();
+
+        //Start the new activity if available
+        Bundle extras = (Bundle) getIntent().getExtras();
+
+        //Forward to MainActivity
+        Intent i = new Intent(this, MainActivity.class);
+        this.startActivity(i);
+
+
+        //finish this
+        this.finish();
+    }
+
+    @Override
+    public void showErrorDialog(Exception e) {
+        if (e instanceof LoginException) {
+            this.showDialog(getString(R.string.text_error), getString(R.string.exception_wrong_user_password_long));
+
+        } else if (!(e instanceof NoChangeException)) {
+            super.showErrorDialog(e);
+
+        }
+    }
 }
