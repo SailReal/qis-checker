@@ -7,26 +7,26 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.media.RingtoneManager;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;
 
 import android.util.Log;
+import android.util.Pair;
 
 import androidx.core.app.NotificationCompat;
 
-import org.apache.http.HttpResponse;
-import org.apache.http.NameValuePair;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.impl.client.BasicResponseHandler;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.message.BasicNameValuePair;
+import java.io.BufferedWriter;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.net.HttpURLConnection;
+import java.net.URL;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -44,6 +44,7 @@ public class RefreshTask extends AsyncTask<Void, Void, Exception> {
     private final String URL_FETCH_ASI = "https://qis.hs-albsig.de/qisserver/rds?state=change&type=1&moduleParameter=studyPOSMenu&nextdir=change&next=menu.vm&subdir=applications&xml=menu&purge=y&navigationPosition=functions%2CstudyPOSMenu&breadcrumb=studyPOSMenu&topitem=functions&subitem=studyPOSMenu";
     private final String URL_FETCH_NODE = "https://qis.hs-albsig.de/qisserver/rds?state=notenspiegelStudent&next=tree.vm&nextdir=qispos/notenspiegel/student&menuid=notenspiegelStudent&breadcrumb=notenspiegel&breadCrumbSource=menu&asi=%s";
     private final String URL_OBSERVE = "https://qis.hs-albsig.de/qisserver/rds?state=notenspiegelStudent&next=list.vm&nextdir=qispos/notenspiegel/student&createInfos=Y&struct=auswahlBaum&nodeID=%s&expand=0&asi=%s";
+    private final String CHARSET = java.nio.charset.StandardCharsets.UTF_8.name();
 
     private final String USER_NAME;
     private final String PASSWORD;
@@ -77,31 +78,27 @@ public class RefreshTask extends AsyncTask<Void, Void, Exception> {
 
     @Override
     protected Exception doInBackground(Void... params) {
-        //Declare Client and occuredException
-        HttpClient client = null;
+        //Declare occuredException
         Exception occuredException = null;
 
         //Try 3 times
         for (int i = 0; i < 3; i++) {
             try {
-                //Create client
-                client = new DefaultHttpClient();
-
                 //Login
                 this.showProgressDialog(this.getStringResource(R.string.text_logging_in));
                 Log.i(this.getClass().getSimpleName(), this.getStringResource(R.string.text_logging_in));
-                this.login(client);
+                this.login();
 
                 // Fetch asi
-                String asi = this.getAsi(client);
+                String asi = this.getAsi();
 
                 // Get nodeIDs of current and past degree
-                List<String> nodeID = this.getNode(client, asi);
+                List<String> nodeID = this.getNode(asi);
 
                 //Check for change
                 this.showProgressDialog(this.getStringResource(R.string.text_checking_update));
                 Log.i(this.getClass().getSimpleName(), this.getStringResource(R.string.text_checking_update));
-                boolean changed = this.checkDataChange(client, asi, nodeID);
+                boolean changed = this.checkDataChange(asi, nodeID);
 
                 //If no change -> save a NoChnageException in occuredException
                 if (!changed) {
@@ -132,7 +129,7 @@ public class RefreshTask extends AsyncTask<Void, Void, Exception> {
                 try {
                     this.showProgressDialog(this.getStringResource(R.string.text_logging_out));
                     Log.i(this.getClass().getSimpleName(), this.getStringResource(R.string.text_logging_out));
-                    this.logout(client);
+                    this.logout();
 
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -165,19 +162,19 @@ public class RefreshTask extends AsyncTask<Void, Void, Exception> {
     }
 
 
-    private void login(HttpClient client) throws Exception {
+    private void login() throws Exception {
 
         //Check Preference
         if (this.PASSWORD.length() == 0 || this.USER_NAME.length() == 0)
             throw new LoginException(this.getStringResource(R.string.exception_no_user_password));
 
-        List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
-        nameValuePairs.add(new BasicNameValuePair("asdf", this.USER_NAME));
-        nameValuePairs.add(new BasicNameValuePair("fdsa", this.PASSWORD));
-        nameValuePairs.add(new BasicNameValuePair("submit", "Anmelden"));
+        List<Pair<String, String>> nameValuePairs = new ArrayList<>(2);
+        nameValuePairs.add(new Pair<>("asdf", this.USER_NAME));
+        nameValuePairs.add(new Pair<>("fdsa", this.PASSWORD));
+        nameValuePairs.add(new Pair<>("submit", "Anmelden"));
 
         //Load page (aka log in)
-        String response = this.sendPost(client, this.URL_LOGIN, nameValuePairs);
+        String response = this.sendPost(this.URL_LOGIN, nameValuePairs);
 
         //Login failed
         if (response.contains("Anmeldung fehlgeschlagen")) {
@@ -188,9 +185,9 @@ public class RefreshTask extends AsyncTask<Void, Void, Exception> {
         }
     }
 
-    private String getAsi(HttpClient client) throws Exception {
+    private String getAsi() throws Exception {
         //Load page (aka log in)
-        String response = this.sendPost(client, this.URL_FETCH_ASI, new ArrayList<NameValuePair>());
+        String response = this.sendPost(this.URL_FETCH_ASI, new ArrayList<Pair<String, String>>());
 
         //Find asi
         int asiLength = ";asi=".length();
@@ -205,9 +202,9 @@ public class RefreshTask extends AsyncTask<Void, Void, Exception> {
 
     }
 
-    private List<String> getNode(HttpClient client, String asi) throws Exception {
+    private List<String> getNode(String asi) throws Exception {
         //Find Node IDs
-        String response = this.sendGet(client, String.format(this.URL_FETCH_NODE, asi));
+        String response = this.sendGet(String.format(this.URL_FETCH_NODE, asi));
         int start = response.indexOf("<ul class=\"treelist\">");
         int end = response.indexOf("</ul>", start);
         String list = response.substring(start, end);
@@ -223,10 +220,10 @@ public class RefreshTask extends AsyncTask<Void, Void, Exception> {
     }
 
 
-    private boolean checkDataChange(HttpClient client, String asi, List<String> nodes) throws Exception {
+    private boolean checkDataChange(String asi, List<String> nodes) throws Exception {
         String table = "";
         for (String node : nodes) {
-            String response = this.sendGet(client, String.format(this.URL_OBSERVE, node, asi));
+            String response = this.sendGet(String.format(this.URL_OBSERVE, node, asi));
             int start = response.indexOf("<table border=\"0\">");
             int end = response.indexOf("</table>", start);
             table += response.substring(start, end);
@@ -246,8 +243,8 @@ public class RefreshTask extends AsyncTask<Void, Void, Exception> {
         return isChanged;
     }
 
-    private void logout(HttpClient client) throws Exception {
-        this.sendGet(client, this.URL_LOGOUT);
+    private void logout() throws Exception {
+        this.sendGet(this.URL_LOGOUT);
 
     }
 
@@ -265,29 +262,51 @@ public class RefreshTask extends AsyncTask<Void, Void, Exception> {
 
     }
 
-    private String sendPost(HttpClient client, String url, List<NameValuePair> params) throws Exception {
-        // Create a new HttpClient and Post Header
-        HttpPost httppost = new HttpPost(url);
+    private String sendPost(String url, List<Pair<String, String>> params) throws Exception {
+        // Open a new connection
+        HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();
 
-        httppost.setEntity(new UrlEncodedFormEntity(params));
+        // Trigger POST and set charset
+        connection.setRequestMethod("POST");
+        connection.setRequestProperty("Accept-Charset", CHARSET);
+        connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded;charset=" + CHARSET);
 
-        // Execute HTTP Post Request
-        HttpResponse response = client.execute(httppost);
-        String responseString = new BasicResponseHandler().handleResponse(response);
+        // Build URI with parameters
+        Uri.Builder builder = new Uri.Builder();
+        for (Pair<String, String> pair: params) {
+            builder.appendQueryParameter(pair.first, pair.second);
+        }
+        String query = builder.build().getEncodedQuery();
 
-        return responseString;
+        // Write query
+        try (OutputStream output = connection.getOutputStream()) {
+            output.write(query.getBytes(CHARSET));
+            BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(output, CHARSET));
+            writer.write(query);
+            writer.flush();
+            writer.close();
+        }
 
+        // Get response
+        InputStream response = connection.getInputStream();
+        try(Scanner scanner = new Scanner(response).useDelimiter("\\A")) {
+            return scanner.hasNext() ? scanner.next() : "";
+        }
     }
 
-    private String sendGet(HttpClient client, String url) throws Exception {
-        // Create a new HttpClient and Post Header
-        HttpGet httppost = new HttpGet(url);
+    private String sendGet(String url) throws Exception {
+        // Open a new connection
+        HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();
+        connection.setRequestMethod("GET");
 
-        // Execute HTTP Post Request
-        HttpResponse response = client.execute(httppost);
-        String responseString = new BasicResponseHandler().handleResponse(response);
+        // Set accepted charset
+        connection.setRequestProperty("Accept-Charset", CHARSET);
 
-        return responseString;
+        // Get response
+        InputStream response = connection.getInputStream();
+        try(Scanner scanner = new Scanner(response).useDelimiter("\\A")) {
+            return scanner.hasNext() ? scanner.next() : "";
+        }
     }
 
     private void showNotification(String title, String text, int id, Intent resultIntent) {
