@@ -87,13 +87,13 @@ public class ExamCategoryAdapter extends RecyclerView.Adapter<ExamCategoryAdapte
         //If e is a seperator hide all views, if not show them all
         if (e instanceof Seperator) {
             holder.itemView.setVisibility(View.GONE);
-            holder.itemView.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, 60));
+            holder.itemView.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
 
             return;
 
         } else {
             holder.itemView.setVisibility(View.VISIBLE);
-            holder.itemView.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
+            holder.itemView.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
 
             holder.itemView.setVisibility(View.VISIBLE);
             for (TextView v : holder.textViews)
@@ -179,7 +179,7 @@ public class ExamCategoryAdapter extends RecyclerView.Adapter<ExamCategoryAdapte
             textViews.add((TextView) itemView.findViewById(R.id.textViewTitle));
             textViews.add((TextView) itemView.findViewById(R.id.textViewSubtitle1));
             textViews.add((TextView) itemView.findViewById(R.id.textViewSubtitle2));
-            imageView = (ImageView) itemView.findViewById(R.id.imageViewState);
+            imageView = itemView.findViewById(R.id.imageViewState);
 
         }
     }

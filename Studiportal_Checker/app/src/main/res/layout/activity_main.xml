@@ -102,9 +102,7 @@
             android:layout_height="fill_parent"
             android:background="@color/color_white"
             android:paddingTop="@dimen/gap_default"
-            android:paddingBottom="@dimen/gap_default"
-            android:dividerHeight="0dp"
-            android:divider="@null" />
+            android:paddingBottom="@dimen/gap_default" />
 
     </LinearLayout>
 
