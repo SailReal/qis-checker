@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.os.Bundle;
+import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.Preference.OnPreferenceClickListener;
 import android.preference.PreferenceFragment;
@@ -18,8 +19,11 @@ import android.view.ViewGroup;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 import de.albsig.qischecker.R;
+import de.albsig.qischecker.data.ExamCategory;
+import de.albsig.qischecker.data.StudiportalData;
 import de.albsig.qischecker.network.RefreshTaskStarter;
 
 /**
@@ -30,6 +34,8 @@ import de.albsig.qischecker.network.RefreshTaskStarter;
  * @since 1.0
  */
 public class PreferencesFragment extends PreferenceFragment implements OnSharedPreferenceChangeListener {
+
+    private static final String TAG = "PreferencesFragment";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -134,6 +140,25 @@ public class PreferencesFragment extends PreferenceFragment implements OnSharedP
         p = this.findPreference(getResources().getString(R.string.preference_logout));
         p.setSummary(username);
 
+        ListPreference defaultCategory = (ListPreference) this.findPreference(getResources().getString(R.string.preference_default_category));
+        try {
+            StudiportalData data = StudiportalData.loadFromSharedPreferences(PreferenceManager.getDefaultSharedPreferences(this.getActivity()), getResources().getString(R.string.preference_last_studiportal_data));
+            CharSequence[] entries = new CharSequence[data.getCategoryCount()];
+            for (int i = 0; i < entries.length; i++) {
+                entries[i] = data.getCategory(i).getCategoryName();
+            }
+            CharSequence[] entryValues = new CharSequence[data.getCategoryCount()];
+            for (int i = 0; i < entryValues.length; i++) {
+                entryValues[i] = String.valueOf(i);
+            }
+
+            defaultCategory.setEntries(entries);
+            defaultCategory.setDefaultValue("0");
+            defaultCategory.setEntryValues(entryValues);
+            defaultCategory.setSummary(defaultCategory.getEntry());
+        } catch (Exception e) {
+            Log.e(TAG, "Can't load StudiportalData", e);
+        }
     }
 
     @Override

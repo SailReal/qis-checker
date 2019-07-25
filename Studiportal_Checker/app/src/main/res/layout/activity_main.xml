@@ -42,6 +42,7 @@
             android:layout_marginBottom="@dimen/fap_margin"
             android:elevation="8dp"
             android:src="@drawable/abc_ic_search_api_material"
+            android:tint="@color/color_white"
             app:backgroundTint="@color/color_main_style_dark"
             app:borderWidth="0dp"
             app:elevation="8dp"

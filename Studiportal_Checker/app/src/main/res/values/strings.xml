@@ -11,6 +11,7 @@
     <string name="preference_user">user</string>
     <string name="preference_use_mobile">use_mobile_network</string>
     <string name="preference_logout">logout</string>
+    <string name="preference_default_category">category</string>
     <string name="preference_password">password</string>
     <string name="preference_last_studiportal_data">last_studiportal_data</string>
     <string name="preference_refresh_settings">refresh_settings</string>
@@ -67,7 +68,8 @@
     <string name="text_search_hint">Prüfungsname</string>
     <string name="preferences_logout_title">Ausloggen</string>
     <string name="preferences_login_data_summary">Trage hier deine Login Daten ein</string>
-    <string name="preferences_login_data_title">Login Daten</string>
+    <string name="preferences_user_data_title">Benutzerdaten</string>
+    <string name="preferences_default_category_title">Standard Abschluss auswählen</string>
     <string name="preferences_refresh_time">Aktualisierungsintervall einstellen</string>
     <string name="preferences_refresh_on_mobile">Über Mobilfunknetz aktualisieren</string>
     <string name="preferences_refresh_on_mobile_summary">Für die Aktualisierung über Mobilfunk können Gebühren anfallen</string>

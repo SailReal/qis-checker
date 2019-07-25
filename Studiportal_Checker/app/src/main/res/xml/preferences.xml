@@ -3,11 +3,14 @@
 
     <PreferenceCategory
         android:summary="@string/preferences_login_data_summary"
-        android:title="@string/preferences_login_data_title">
+        android:title="@string/preferences_user_data_title">
         <Preference
             android:inputType="text"
             android:key="@string/preference_logout"
             android:title="@string/preferences_logout_title" />
+        <ListPreference
+            android:key="@string/preference_default_category"
+            android:title="@string/preferences_default_category_title" />
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/preferences_notification">
         <CheckBoxPreference
