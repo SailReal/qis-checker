@@ -10,20 +10,20 @@ import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;
-
 import android.util.Log;
 import android.util.Pair;
 
 import androidx.core.app.NotificationCompat;
 
 import java.io.BufferedWriter;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
+import java.net.CookieHandler;
+import java.net.CookieManager;
 import java.net.HttpURLConnection;
 import java.net.URL;
-
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -57,6 +57,7 @@ public class RefreshTask extends AsyncTask<Void, Void, Exception> {
         this.USER_NAME = userName;
         this.PASSWORD = password;
 
+        initCookieHandler();
     }
 
     public RefreshTask(Context c) {
@@ -66,6 +67,12 @@ public class RefreshTask extends AsyncTask<Void, Void, Exception> {
         this.USER_NAME = sp.getString(this.getStringResource(R.string.preference_user), "");
         this.PASSWORD = sp.getString(this.getStringResource(R.string.preference_password), "");
 
+        initCookieHandler();
+    }
+
+    private void initCookieHandler() {
+        CookieManager cookieManager = new CookieManager();
+        CookieHandler.setDefault(cookieManager);
     }
 
     @Override
@@ -187,7 +194,7 @@ public class RefreshTask extends AsyncTask<Void, Void, Exception> {
 
     private String getAsi() throws Exception {
         //Load page (aka log in)
-        String response = this.sendPost(this.URL_FETCH_ASI, new ArrayList<Pair<String, String>>());
+        String response = this.sendPost(this.URL_FETCH_ASI, null);
 
         //Find asi
         int asiLength = ";asi=".length();
@@ -204,7 +211,7 @@ public class RefreshTask extends AsyncTask<Void, Void, Exception> {
 
     private List<String> getNode(String asi) throws Exception {
         //Find Node IDs
-        String response = this.sendGet(String.format(this.URL_FETCH_NODE, asi));
+        String response = this.sendPost(String.format(this.URL_FETCH_NODE, asi), null);
         int start = response.indexOf("<ul class=\"treelist\">");
         int end = response.indexOf("</ul>", start);
         String list = response.substring(start, end);
@@ -271,42 +278,52 @@ public class RefreshTask extends AsyncTask<Void, Void, Exception> {
         connection.setRequestProperty("Accept-Charset", CHARSET);
         connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded;charset=" + CHARSET);
 
-        // Build URI with parameters
-        Uri.Builder builder = new Uri.Builder();
-        for (Pair<String, String> pair: params) {
-            builder.appendQueryParameter(pair.first, pair.second);
-        }
-        String query = builder.build().getEncodedQuery();
+        if (params != null && !params.isEmpty()) {
+            // Build URI with parameters
+            Uri.Builder builder = new Uri.Builder();
+            for (Pair<String, String> pair : params) {
+                builder.appendQueryParameter(pair.first, pair.second);
+            }
+            String query = builder.build().getEncodedQuery();
 
-        // Write query
-        try (OutputStream output = connection.getOutputStream()) {
-            output.write(query.getBytes(CHARSET));
-            BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(output, CHARSET));
-            writer.write(query);
-            writer.flush();
-            writer.close();
+            // Write query
+            try (OutputStream output = connection.getOutputStream()) {
+                output.write(query.getBytes(CHARSET));
+                BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(output, CHARSET));
+                writer.write(query);
+                writer.flush();
+                writer.close();
+            }
         }
 
         // Get response
+        String ret;
         InputStream response = connection.getInputStream();
-        try(Scanner scanner = new Scanner(response).useDelimiter("\\A")) {
-            return scanner.hasNext() ? scanner.next() : "";
+        try (Scanner scanner = new Scanner(response).useDelimiter("\\A")) {
+            ret = scanner.hasNext() ? scanner.next() : "";
         }
+        connection.disconnect();
+        return ret;
     }
 
     private String sendGet(String url) throws Exception {
         // Open a new connection
         HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();
+
         connection.setRequestMethod("GET");
 
         // Set accepted charset
         connection.setRequestProperty("Accept-Charset", CHARSET);
 
+        connection.connect();
         // Get response
+        String ret;
         InputStream response = connection.getInputStream();
-        try(Scanner scanner = new Scanner(response).useDelimiter("\\A")) {
-            return scanner.hasNext() ? scanner.next() : "";
+        try (Scanner scanner = new Scanner(response).useDelimiter("\\A")) {
+            ret = scanner.hasNext() ? scanner.next() : "";
         }
+        connection.disconnect();
+        return ret;
     }
 
     private void showNotification(String title, String text, int id, Intent resultIntent) {

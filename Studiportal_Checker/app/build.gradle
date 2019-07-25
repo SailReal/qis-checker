@@ -6,7 +6,7 @@ android {
 
     defaultConfig {
         applicationId 'de.albsig.qischecker'
-        minSdkVersion 19
+        minSdkVersion 21
         targetSdkVersion 29
         versionCode 24
         versionName "3.0.0"
@@ -22,10 +22,7 @@ android {
 }
 
 dependencies {
-    implementation 'androidx.recyclerview:recyclerview:1.0.0'
-    implementation 'androidx.cardview:cardview:1.0.0'
     implementation 'com.google.android.material:material:1.0.0'
-    implementation 'jp.wasabeef:recyclerview-animators:1.2.0@aar'
-    implementation 'org.jsoup:jsoup:1.7.3'
-    compile group: 'org.apache.httpcomponents' , name: 'httpclient-android' , version: '4.3.5.1'
+    implementation 'jp.wasabeef:recyclerview-animators:3.0.0@aar'
+    implementation 'org.jsoup:jsoup:1.12.1'
 }

@@ -29,7 +29,7 @@ public class ExamCategoryFragment extends Fragment {
         ExamCategory c = (ExamCategory) getArguments().get(ARG_CATEGORY);
 
         //Find list and init
-        RecyclerView list = (RecyclerView) rootView.findViewById(R.id.list);
+        RecyclerView list = rootView.findViewById(R.id.list);
         list.setLayoutManager(new LinearLayoutManager(this.getActivity()));
         list.setItemAnimator(new SlideInUpAnimator());
 

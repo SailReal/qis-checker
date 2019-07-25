@@ -95,7 +95,7 @@ public class MainActivity extends DialogHostActivity implements Refreshable, Ada
         this.getSupportActionBar().setHomeButtonEnabled(true);
 
         //Find exam category list
-        this.examCategoryList = (ListView) this.findViewById(R.id.examCategoryList);
+        this.examCategoryList = this.findViewById(R.id.examCategoryList);
 
         //Add item click listener
         this.examCategoryList.setOnItemClickListener(this);
