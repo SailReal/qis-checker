@@ -1,5 +1,6 @@
 package de.albsig.qischecker.network;
 
+import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
@@ -9,6 +10,7 @@ import android.graphics.Color;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.util.Pair;
@@ -228,16 +230,16 @@ public class RefreshTask extends AsyncTask<Void, Void, Exception> {
 
 
     private boolean checkDataChange(String asi, List<String> nodes) throws Exception {
-        String table = "";
+        StringBuilder table =  new StringBuilder();
         for (String node : nodes) {
             String response = this.sendGet(String.format(this.URL_OBSERVE, node, asi));
             int start = response.indexOf("<table border=\"0\">");
             int end = response.indexOf("</table>", start);
-            table += response.substring(start, end);
+            table.append(response.substring(start, end));
         }
 
         //Create StudiportalData, Compare to saved one and savethe new one
-        StudiportalData sd = new StudiportalData(table);
+        StudiportalData sd = new StudiportalData(table.toString());
         List<Exam> changed = sd.findChangedExams(this.getSharedPreferences(), getStringResource(R.string.preference_last_studiportal_data));
         sd.save(this.getSharedPreferences(), getStringResource(R.string.preference_last_studiportal_data));
 
@@ -350,6 +352,16 @@ public class RefreshTask extends AsyncTask<Void, Void, Exception> {
         mBuilder.setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION));
         NotificationManager mNotificationManager =
                 (NotificationManager) this.getContext().getSystemService(Context.NOTIFICATION_SERVICE);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            String channelId = getStringResource(R.string.app_name);
+            NotificationChannel channel = new NotificationChannel(
+                    channelId,
+                    getStringResource(R.string.app_name),
+                    NotificationManager.IMPORTANCE_DEFAULT);
+            mNotificationManager.createNotificationChannel(channel);
+            mBuilder.setChannelId(channelId);
+        }
 
         // mId allows you to update the notification later on.
         mNotificationManager.notify(id, mBuilder.build());

@@ -7,6 +7,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
 import android.net.wifi.WifiManager;
 import android.preference.PreferenceManager;
 
@@ -42,7 +43,8 @@ public class RefreshTaskStarter extends BroadcastReceiver {
         }
 
         //If the Network state changed and Wifi is now on and the last update is delayed -> update and reset overdue flag
-        if (intent.getAction().equals(WifiManager.NETWORK_STATE_CHANGED_ACTION) && getWifiManager(context).isWifiEnabled() &&
+        if (intent.getAction().equals(ConnectivityManager.CONNECTIVITY_ACTION) && (getWifiManager(context).isWifiEnabled() ||
+                getSharedPreferences(context).getBoolean(context.getResources().getString(R.string.preference_use_mobile), true)) &&
                 getSharedPreferences(context).getBoolean(context.getResources().getString(R.string.preference_refresh_is_overdue), false)) {
             getSharedPreferences(context).edit().putBoolean(context.getString(R.string.preference_refresh_is_overdue), false).commit();
             new RefreshTask(context).execute();

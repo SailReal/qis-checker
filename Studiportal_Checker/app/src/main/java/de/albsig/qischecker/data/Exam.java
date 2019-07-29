@@ -3,6 +3,7 @@ package de.albsig.qischecker.data;
 import android.content.Context;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 public class Exam implements Serializable {
 
@@ -154,5 +155,28 @@ public class Exam implements Serializable {
         this.state = state;
         return this;
 
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Exam exam = (Exam) o;
+        return id == exam.id &&
+                Objects.equals(examNo, exam.examNo) &&
+                Objects.equals(name, exam.name) &&
+                Objects.equals(semester, exam.semester) &&
+                Objects.equals(grade, exam.grade) &&
+                Objects.equals(state, exam.state) &&
+                Objects.equals(ects, exam.ects) &&
+                Objects.equals(kind, exam.kind) &&
+                Objects.equals(pv, exam.pv) &&
+                Objects.equals(tryCount, exam.tryCount) &&
+                Objects.equals(date, exam.date);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, examNo, name, semester, grade, state, ects, kind, pv, tryCount, date);
     }
 }

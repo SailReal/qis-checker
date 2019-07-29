@@ -58,7 +58,7 @@ public class StudiportalData implements Serializable {
 
     public List<Exam> findChangedExams(StudiportalData otherInstance) {
         //create empty list
-        List<Exam> changed = new ArrayList<Exam>();
+        List<Exam> changed = new ArrayList<>();
 
         //Get all my exams
         List<Exam> myExams = this.getAllExams();
@@ -70,15 +70,7 @@ public class StudiportalData implements Serializable {
                 //Find the equivalent exam
                 Exam other = otherInstance.findExam(e.getId());
 
-                //If there is a other one and it was changed, add it
-                if (other != null && other.getGrade() != null &&
-                        !other.getGrade().equals(e.getGrade()) && !doesListContainSubject(e.getName(), changed)) {
-                    changed.add(e);
-                }
-
-                //If there is a other one and it was changed, add it
-                if (other != null && other.getState() != null &&
-                        !other.getState().equals(e.getState()) && !doesListContainSubject(e.getName(), changed)) {
+                if (other == null || !other.equals(e)) {
                     changed.add(e);
                 }
             }
