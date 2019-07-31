@@ -62,7 +62,7 @@
                 android:resource="@xml/searchable" />
         </activity>
 
-        <receiver android:name="de.albsig.qischecker.network.RefreshTaskStarter">
+        <receiver android:process=":remote" android:name="de.albsig.qischecker.network.RefreshTaskStarter">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>

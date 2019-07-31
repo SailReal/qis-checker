@@ -1,71 +1,32 @@
 package de.albsig.qischecker.network;
 
 import android.app.Activity;
-import android.app.AlarmManager;
-import android.app.PendingIntent;
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.net.ConnectivityManager;
-import android.net.wifi.WifiManager;
 import android.preference.PreferenceManager;
+
+import androidx.work.Constraints;
+import androidx.work.NetworkType;
+import androidx.work.PeriodicWorkRequest;
+import androidx.work.WorkManager;
 
 import java.util.concurrent.TimeUnit;
 
 import de.albsig.qischecker.R;
 import de.albsig.qischecker.view.LoginActivity;
 
-public class RefreshTaskStarter extends BroadcastReceiver {
+public class RefreshTaskStarter {
 
-    private static final String CHECK_FOR_UPDATES = "de.albsig.qischecker.CHECK_FOR_UPDATES";
-
-    @Override
-    public void onReceive(Context context, Intent intent) {
-        //If the Broadcast CHECK_FOR_UPDATE arrives, let's check
-        if (intent.getAction().equals(CHECK_FOR_UPDATES)) {
-            //Only check if wifi is enabled or we are allowed to check over cellular
-            if (getWifiManager(context).isWifiEnabled() ||
-                    getSharedPreferences(context).getBoolean(context.getResources().getString(R.string.preference_use_mobile), true)) {
-                new RefreshTask(context).execute();
-
-            } else {
-                //Wifi is off or we are not allowed to use cellular. Set the overdue flag to signalised the upate is delayed
-                getSharedPreferences(context).edit().putBoolean(context.getString(R.string.preference_refresh_is_overdue), true).commit();
-
-            }
-        }
-
-        //init after reboot
-        if (intent.getAction().equals(Intent.ACTION_BOOT_COMPLETED)) {
-            startRefreshTask(context);
-
-        }
-
-        //If the Network state changed and Wifi is now on and the last update is delayed -> update and reset overdue flag
-        if (intent.getAction().equals(ConnectivityManager.CONNECTIVITY_ACTION) && (getWifiManager(context).isWifiEnabled() ||
-                getSharedPreferences(context).getBoolean(context.getResources().getString(R.string.preference_use_mobile), true)) &&
-                getSharedPreferences(context).getBoolean(context.getResources().getString(R.string.preference_refresh_is_overdue), false)) {
-            getSharedPreferences(context).edit().putBoolean(context.getString(R.string.preference_refresh_is_overdue), false).commit();
-            new RefreshTask(context).execute();
-
-        }
-    }
-
-    public static PendingIntent createPendingIntent(Context context) {
-        Intent i = new Intent();
-        i.setAction(CHECK_FOR_UPDATES);
-        PendingIntent update = PendingIntent.getBroadcast(context, 0, i, PendingIntent.FLAG_UPDATE_CURRENT);
-
-        return update;
-    }
+    // Constraint to assure that worker is only called if network is connected
+    private static Constraints constraints = new Constraints.Builder().setRequiredNetworkType(NetworkType.CONNECTED).build();
+    private static PeriodicWorkRequest refreshWork = null;
 
     public static void cancelRefreshTask(Context context) {
-        AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-        PendingIntent toCancel = createPendingIntent(context);
-        toCancel.cancel();
-        alarmManager.cancel(toCancel);
-
+        WorkManager workManager = WorkManager.getInstance(context);
+        if (refreshWork != null) {
+            workManager.cancelWorkById(refreshWork.getId());
+        }
     }
 
     public static void startRefreshTask(Context context) {
@@ -91,9 +52,16 @@ public class RefreshTaskStarter extends BroadcastReceiver {
             sp.edit().putString(context.getString(R.string.preference_refresh_rate), minValue).apply();
         }
 
-        //Everything ok, start service
-        AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-        alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), getPauseTime(context), createPendingIntent(context));
+        //Everything ok, check if worker was previously running and restart
+        WorkManager workManager = WorkManager.getInstance(context);
+        if (refreshWork != null) {
+            workManager.cancelWorkById(refreshWork.getId());
+        }
+        refreshWork = new PeriodicWorkRequest.Builder(BackgroundWorker.class, getPauseTime(context), TimeUnit.MINUTES)
+                .setConstraints(constraints)
+                .build();
+        workManager.enqueue(refreshWork);
+
 
     }
 
@@ -101,11 +69,6 @@ public class RefreshTaskStarter extends BroadcastReceiver {
         int minutes = Integer.valueOf(getSharedPreferences(con).getString(con.getResources().getString(R.string.preference_refresh_rate), "60"));
 
         return TimeUnit.MILLISECONDS.convert(minutes, TimeUnit.MINUTES);
-    }
-
-    private WifiManager getWifiManager(Context con) {
-        return (WifiManager) con.getSystemService(Context.WIFI_SERVICE);
-
     }
 
     private static SharedPreferences getSharedPreferences(Context con) {
