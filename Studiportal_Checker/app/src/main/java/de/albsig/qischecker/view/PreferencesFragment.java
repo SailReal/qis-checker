@@ -168,7 +168,7 @@ public class PreferencesFragment extends PreferenceFragment implements OnSharedP
         updateSummaries();
 
         if (key.equals(getResources().getString(R.string.preference_refresh_rate))) {
-            RefreshTaskStarter.startRefreshTask(this.getActivity());
+            RefreshTaskStarter.startRefreshTask(this.getActivity(), true);
 
         }
 

@@ -109,7 +109,7 @@ public class MainActivity extends DialogHostActivity implements Refreshable, Ada
         this.onRefresh();
 
         //Start Background Service
-        RefreshTaskStarter.startRefreshTask(this);
+        RefreshTaskStarter.startRefreshTask(this, false);
     }
 
     @Override
