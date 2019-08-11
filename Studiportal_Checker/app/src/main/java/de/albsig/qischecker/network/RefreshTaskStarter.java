@@ -26,7 +26,7 @@ import de.albsig.qischecker.view.LoginActivity;
 public class RefreshTaskStarter {
 
     // Constraint to assure that worker is only called if network is connected
-    private static Constraints constraints = new Constraints.Builder().setRequiredNetworkType(NetworkType.CONNECTED).build();
+    private static final Constraints constraints = new Constraints.Builder().setRequiredNetworkType(NetworkType.CONNECTED).build();
     private static PeriodicWorkRequest refreshWork = null;
 
     public static void cancelRefreshTask(Context context) {
@@ -49,13 +49,16 @@ public class RefreshTaskStarter {
         // Everything ok, start unique worker with flex interval of 10 minutes
         WorkManager workManager = WorkManager.getInstance(context);
         refreshWork = new PeriodicWorkRequest.Builder(BackgroundWorker.class, minutes, TimeUnit.MINUTES, 10, TimeUnit.MINUTES)
-                //.setConstraints(constraints)
+                .setConstraints(constraints)
                 .build();
         // Set ExistingPeriodicWorkPolicy
-        ExistingPeriodicWorkPolicy policy = ExistingPeriodicWorkPolicy.KEEP;
-        if (update)
+        ExistingPeriodicWorkPolicy policy;
+        if (update) {
             policy = ExistingPeriodicWorkPolicy.REPLACE;
-        workManager.enqueueUniquePeriodicWork("BackgroundWorker", policy, refreshWork);
+        } else {
+            policy = ExistingPeriodicWorkPolicy.KEEP;
+        }
+        workManager.enqueueUniquePeriodicWork(BackgroundWorker.class.getName(), policy, refreshWork);
     }
 
     private static SharedPreferences getSharedPreferences(Context con) {

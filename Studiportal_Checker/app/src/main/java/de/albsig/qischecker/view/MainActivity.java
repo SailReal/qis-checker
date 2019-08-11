@@ -148,7 +148,7 @@ public class MainActivity extends DialogHostActivity implements Refreshable, Ada
 
         if (item.getItemId() == R.id.action_refresh) {
             new RefreshTask(this).execute();
-
+            RefreshTaskStarter.startRefreshTask(this,true);
             return true;
         }
 

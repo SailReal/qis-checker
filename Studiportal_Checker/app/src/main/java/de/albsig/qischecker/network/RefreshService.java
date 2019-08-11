@@ -40,12 +40,13 @@ import de.albsig.qischecker.view.MainActivity;
 
 public class RefreshService {
 
-    private final String URL_LOGIN = "https://qis.hs-albsig.de/qisserver/rds?state=user&type=1&category=auth.login&startpage=portal.vm";
-    private final String URL_LOGOUT = "https://qis.hs-albsig.de/qisserver/rds?state=user&type=4&re=last&category=auth.logout&breadCrumbSource=portal&topitem=functions";
-    private final String URL_FETCH_ASI = "https://qis.hs-albsig.de/qisserver/rds?state=change&type=1&moduleParameter=studyPOSMenu&nextdir=change&next=menu.vm&subdir=applications&xml=menu&purge=y&navigationPosition=functions%2CstudyPOSMenu&breadcrumb=studyPOSMenu&topitem=functions&subitem=studyPOSMenu";
-    private final String URL_FETCH_NODE = "https://qis.hs-albsig.de/qisserver/rds?state=notenspiegelStudent&next=tree.vm&nextdir=qispos/notenspiegel/student&menuid=notenspiegelStudent&breadcrumb=notenspiegel&breadCrumbSource=menu&asi=%s";
-    private final String URL_OBSERVE = "https://qis.hs-albsig.de/qisserver/rds?state=notenspiegelStudent&next=list.vm&nextdir=qispos/notenspiegel/student&createInfos=Y&struct=auswahlBaum&nodeID=%s&expand=0&asi=%s";
-    private final String CHARSET = java.nio.charset.StandardCharsets.UTF_8.name();
+    private static final String URL_LOGIN = "https://qis.hs-albsig.de/qisserver/rds?state=user&type=1&category=auth.login&startpage=portal.vm";
+    private static final String URL_LOGOUT = "https://qis.hs-albsig.de/qisserver/rds?state=user&type=4&re=last&category=auth.logout&breadCrumbSource=portal&topitem=functions";
+    private static final String URL_FETCH_ASI = "https://qis.hs-albsig.de/qisserver/rds?state=change&type=1&moduleParameter=studyPOSMenu&nextdir=change&next=menu.vm&subdir=applications&xml=menu&purge=y&navigationPosition=functions%2CstudyPOSMenu&breadcrumb=studyPOSMenu&topitem=functions&subitem=studyPOSMenu";
+    private static final String URL_FETCH_NODE = "https://qis.hs-albsig.de/qisserver/rds?state=notenspiegelStudent&next=tree.vm&nextdir=qispos/notenspiegel/student&menuid=notenspiegelStudent&breadcrumb=notenspiegel&breadCrumbSource=menu&asi=%s";
+    private static final String URL_OBSERVE = "https://qis.hs-albsig.de/qisserver/rds?state=notenspiegelStudent&next=list.vm&nextdir=qispos/notenspiegel/student&createInfos=Y&struct=auswahlBaum&nodeID=%s&expand=0&asi=%s";
+
+    private static final String CHARSET = java.nio.charset.StandardCharsets.UTF_8.name();
 
     private final String USER_NAME;
     private final String PASSWORD;

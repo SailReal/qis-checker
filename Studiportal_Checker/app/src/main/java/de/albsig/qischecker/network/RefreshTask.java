@@ -41,7 +41,7 @@ import de.albsig.qischecker.view.MainActivity;
 
 public class RefreshTask extends AsyncTask<Void, Void, Exception> {
 
-    private RefreshService service;
+    private final RefreshService service;
 
     public RefreshTask(Context c, String userName, String password) {
         service = new RefreshService(c, userName, password);
