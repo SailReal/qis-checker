@@ -1,7 +1,6 @@
 package de.albsig.qischecker.network;
 
 import android.content.Context;
-
 import android.content.SharedPreferences;
 import android.net.wifi.WifiManager;
 import android.preference.PreferenceManager;
@@ -15,6 +14,7 @@ import de.albsig.qischecker.R;
 public class BackgroundWorker extends Worker {
 
     private Context context;
+
     public BackgroundWorker(
             @NonNull Context context,
             @NonNull WorkerParameters params) {

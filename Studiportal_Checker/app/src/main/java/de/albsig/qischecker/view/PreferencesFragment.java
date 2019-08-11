@@ -19,10 +19,8 @@ import android.view.ViewGroup;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
 
 import de.albsig.qischecker.R;
-import de.albsig.qischecker.data.ExamCategory;
 import de.albsig.qischecker.data.StudiportalData;
 import de.albsig.qischecker.network.RefreshTaskStarter;
 

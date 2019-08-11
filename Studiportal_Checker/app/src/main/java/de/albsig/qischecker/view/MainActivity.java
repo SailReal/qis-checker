@@ -56,7 +56,7 @@ public class MainActivity extends DialogHostActivity implements Refreshable, Ada
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         String user = prefs.getString(this.getString(R.string.preference_user), "");
 
-        selectedCategory = Integer.parseInt(prefs.getString(getResources().getString(R.string.preference_default_category),"0"));
+        selectedCategory = Integer.parseInt(prefs.getString(getResources().getString(R.string.preference_default_category), "0"));
 
         //Set username
         TextView userView = this.findViewById(R.id.textViewUser);
@@ -148,7 +148,7 @@ public class MainActivity extends DialogHostActivity implements Refreshable, Ada
 
         if (item.getItemId() == R.id.action_refresh) {
             new RefreshTask(this).execute();
-            RefreshTaskStarter.startRefreshTask(this,true);
+            RefreshTaskStarter.startRefreshTask(this, true);
             return true;
         }
 
