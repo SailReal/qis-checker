@@ -38,7 +38,7 @@ import de.albsig.qischecker.view.DialogHost;
 import de.albsig.qischecker.view.ExamActivity;
 import de.albsig.qischecker.view.MainActivity;
 
-public class RefreshService {
+class RefreshService {
 
     private static final String URL_LOGIN = "https://qis.hs-albsig.de/qisserver/rds?state=user&type=1&category=auth.login&startpage=portal.vm";
     private static final String URL_LOGOUT = "https://qis.hs-albsig.de/qisserver/rds?state=user&type=4&re=last&category=auth.logout&breadCrumbSource=portal&topitem=functions";
