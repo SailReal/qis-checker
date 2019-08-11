@@ -17,6 +17,7 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.google.android.material.snackbar.Snackbar;
 
@@ -96,6 +97,16 @@ public class MainActivity extends DialogHostActivity implements Refreshable, Ada
         this.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         this.getSupportActionBar().setHomeButtonEnabled(true);
 
+        //enable pull to refresh
+        final SwipeRefreshLayout pullToRefresh = findViewById(R.id.pullToRefresh);
+        pullToRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                startRefreshTask();
+                pullToRefresh.setRefreshing(false);
+            }
+        });
+
         //Find exam category list
         this.examCategoryList = this.findViewById(R.id.examCategoryList);
 
@@ -147,8 +158,7 @@ public class MainActivity extends DialogHostActivity implements Refreshable, Ada
         }
 
         if (item.getItemId() == R.id.action_refresh) {
-            new RefreshTask(this).execute();
-            RefreshTaskStarter.startRefreshTask(this, true);
+            startRefreshTask();
             return true;
         }
 
@@ -259,6 +269,11 @@ public class MainActivity extends DialogHostActivity implements Refreshable, Ada
         //Hide drawer
         this.drawerLayout.closeDrawers();
 
+    }
+
+    private void startRefreshTask() {
+        new RefreshTask(this).execute();
+        RefreshTaskStarter.startRefreshTask(this, true);
     }
 
     @Override

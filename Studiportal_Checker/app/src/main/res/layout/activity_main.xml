@@ -25,12 +25,17 @@
                 local:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
                 local:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
 
-            <FrameLayout
+            <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
                 android:layout_width="match_parent"
                 android:layout_height="fill_parent"
-                android:id="@+id/contentPanel"
-                android:layout_below="@id/toolbar" />
+                android:id="@+id/pullToRefresh"
+                android:layout_below="@id/toolbar">
 
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="fill_parent"
+                    android:id="@+id/contentPanel" />
+            </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
         </RelativeLayout>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
