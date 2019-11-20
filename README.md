@@ -10,10 +10,10 @@ Der QIS-Checker ist momentan noch nicht im Google Play Store erhältlich.
 
 Screenshots
 ===========
-![alt tag](/../screenshots/Login.png?raw=true)
-![alt tag](/../screenshots/Load.png?raw=true)
-![alt tag](/../screenshots/Overview.png?raw=true)
-![alt tag](/../screenshots/Search.png?raw=true)
-![alt tag](/../screenshots/Preferences.png?raw=true)
-![alt tag](/../screenshots/Notification.png?raw=true)
+<img src="https://raw.githubusercontent.com/mkotzjan/qis-checker/screenshots/Login.png" alt="Login Screen" width="500"/>
+<img src="https://raw.githubusercontent.com/mkotzjan/qis-checker/screenshots/Load.png" alt="Loading Screen" width="500"/>
+<img src="https://raw.githubusercontent.com/mkotzjan/qis-checker/screenshots/Overview.png" alt="Overview" width="500"/>
+<img src="https://raw.githubusercontent.com/mkotzjan/qis-checker/screenshots/Search.png" alt="Search" width="500"/>
+<img src="https://raw.githubusercontent.com/mkotzjan/qis-checker/screenshots/Preferences.png" alt="Preferences" width="500"/>
+<img src="https://raw.githubusercontent.com/mkotzjan/qis-checker/screenshots/Notification.png" alt="Notification Example" width="500"/>
 
