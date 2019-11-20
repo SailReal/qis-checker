@@ -75,7 +75,7 @@
     <string name="preferences_refresh_on_mobile_summary">Für die Aktualisierung über Mobilfunk können Gebühren anfallen</string>
     <string name="preferences_refresh_title">Aktualisierung</string>
     <string name="preferences_about">Über</string>
-    <string name="preferences_about_text">&#169; Michael Kotzjan (2018)\nSystems Engineering\nHochschule Albstadt-Sigmaringen\n\nSourcecode auf GitHub:\nhttps://github.com/mkotzjan/qis-checker</string>
+    <string name="preferences_about_text">&#169; Michael Kotzjan &amp; Robin Binder (2019)\nSystems Engineering\nHochschule Albstadt-Sigmaringen\n\nSourcecode auf GitHub:\nhttps://github.com/mkotzjan/qis-checker</string>
     <string name="preferences_other_title">Sonstiges</string>
     <string name="preferences_notification">Benachrichtigung</string>
     <string name="preferences_show_grade_title">Note in Benachrichtigung</string>
